@@ -4,9 +4,12 @@ import Productos from './components/Productos';
 import Carrito from './components/Carrito';
 import Footer from './components/Footer';
 import Admin from './components/Admin';
+import Login from './components/Login';
+import Register from './components/Register';
 import React, { useState, useEffect } from 'react';
 import { db } from './firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const App = () => {
   const [productos, setProductos] = useState([]);
@@ -33,11 +36,17 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header />
-      <Admin />
-      <Productos productos={productos} agregarAlCarrito={agregarAlCarrito} />
-      <Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />
-      <Footer />
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+        <Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 };
