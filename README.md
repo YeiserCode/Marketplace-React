@@ -1,4 +1,4 @@
-# Plataforma de Rastreo Satelital Personalizada
+# Plataforma de Comercio Personalizada
 
 Este proyecto es una aplicación web de comercio electrónico personalizada, construida con React y Firebase. La aplicación permite a los usuarios ver y comprar productos y a los administradores agregar nuevos productos.
 
