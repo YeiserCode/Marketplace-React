@@ -7,6 +7,7 @@ import Admin from './components/Admin';
 import Login from './components/Login';
 import Register from './components/Register';
 import Navbar from './components/Navbar';
+import ProductDetails from './components/ProductDetails';
 import React, { useState, useEffect } from 'react';
 import { db } from './firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
@@ -42,9 +43,11 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} />} />
+          <Route path="/productos" element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/product/:productId" element={<ProductDetails />} />
         </Routes>
         <Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />
         <Footer />

@@ -5,6 +5,7 @@ Este proyecto es una aplicación web de comercio electrónico personalizada, con
 ## Características
 
 - Visualización de productos
+- Ver Datalles del Producto
 - Agregar productos al carrito de compras
 - Eliminar productos del carrito de compras
 - Interfaz de administración para agregar nuevos productos a la tienda
@@ -24,6 +25,7 @@ Este proyecto es una aplicación web de comercio electrónico personalizada, con
 ```javascript
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   // Añade aquí la configuración de tu proyecto de Firebase
@@ -31,5 +33,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-export { db };
+export { db, auth };
