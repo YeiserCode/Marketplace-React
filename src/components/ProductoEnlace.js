@@ -1,4 +1,5 @@
 import React from 'react';
+import { ButtonBase } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const ProductoEnlace = ({ children, to }) => {
@@ -9,7 +10,11 @@ const ProductoEnlace = ({ children, to }) => {
     navigate(to);
   };
 
-  return <div onClick={handleClick}>{children}</div>;
+  return (
+    <ButtonBase onClick={handleClick} focusRipple>
+      {children}
+    </ButtonBase>
+  );
 };
 
 export default ProductoEnlace;
