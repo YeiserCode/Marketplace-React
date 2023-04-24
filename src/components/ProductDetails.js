@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
-import { Container, Typography, Box, Paper, Grid } from '@mui/material';
+import { Container, Typography, Box, Paper, Grid, Modal } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import ReactImageMagnify from 'react-image-magnify';
 
 const useStyles = makeStyles({
   mainImage: {
     width: '100%',
-    height: '300px',
+    maxHeight: '300px',
     objectFit: 'contain',
     cursor: 'pointer',
     borderRadius: '4px',
@@ -17,8 +16,9 @@ const useStyles = makeStyles({
   magnifierContainer: {
     position: 'relative',
     width: '100%',
-    paddingBottom: '100%',
-    overflow: 'visible',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
   },
   imageThumbnail: {
     width: '100%',
@@ -47,12 +47,23 @@ const useStyles = makeStyles({
   descriptionTitle: {
     fontWeight: 'bold',
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalImage: {
+    maxWidth: '90%',
+    maxHeight: '90%',
+    borderRadius: '4px',
+  },
 });
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -72,7 +83,15 @@ const ProductDetails = () => {
 
   const handleImageChange = (imageUrl) => {
     setSelectedImage(imageUrl);
-  }; 
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Container maxWidth="md">
@@ -81,29 +100,14 @@ const ProductDetails = () => {
           <Paper elevation={3} className={classes.paper}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
-              <div className={classes.magnifierContainer}>
-                <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: product.nombre,
-                      isFluidWidth: true,
-                      src: selectedImage || product.imagenPortada,
-                    },
-                    largeImage: {
-                      src: selectedImage || product.imagenPortada,
-                      width: 900,
-                      height: 1150,
-                    },
-                    enlargedImagePosition: 'beside',
-                    enlargedImageContainerDimensions: {
-                      width: '105%',
-                      height: '100%',
-                    },
-                    lensStyle: { backgroundColor: 'rgba(0,0,0,.6)' },
-                  }}
-                  className={classes.mainImage}
-                />
-                  </div>
+                <div className={classes.magnifierContainer}>
+                  <img
+                    src={selectedImage || product.imagenPortada}
+                    alt={product.nombre}
+                    className={classes.mainImage}
+                    onClick={handleOpen}
+                  />
+                </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Box className={classes.productInfo}>
@@ -133,6 +137,18 @@ const ProductDetails = () => {
       ) : (
         <Typography variant="h5">Cargando detalles del producto...</Typography>
       )}
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        className={classes.modal}
+      >
+        <img
+          src={selectedImage || product?.imagenPortada}
+          alt={product?.nombre}
+          className={classes.modalImage}
+        />
+      </Modal>
 
     </Container>
   );

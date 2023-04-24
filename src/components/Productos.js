@@ -1,10 +1,18 @@
 import React, { useMemo } from 'react';
 import Fuse from 'fuse.js';
 import Producto from './Producto';
-import ProductoEnlace from './ProductoEnlace';
+import { useNavigate } from 'react-router-dom';
 
 const Productos = ({ productos, agregarAlCarrito, search }) => {
-  const handleProductClick = (producto) => {
+  const navigate = useNavigate();
+
+  const agregarProductoAlCarrito = (producto) => {
+    agregarAlCarrito(producto);
+    navigate(`/carrito/agregado/${producto.id}`);
+  };
+
+  const handleClick = (productoId) => {
+    navigate(`/product/${productoId}`);
   };
 
   const fuse = useMemo(() => {
@@ -24,13 +32,12 @@ const Productos = ({ productos, agregarAlCarrito, search }) => {
   return (
     <div className="productos">
       {filteredProducts.map((producto) => (
-        <ProductoEnlace to={`/product/${producto.id}`} key={producto.id}>
-          <Producto
-            producto={producto}
-            agregarAlCarrito={agregarAlCarrito}
-            onProductClick={handleProductClick}
-          />
-        </ProductoEnlace>
+        <Producto
+          key={producto.id}
+          producto={producto}
+          agregarAlCarrito={(producto) => agregarProductoAlCarrito(producto)}
+          handleClick={() => handleClick(producto.id)}
+        />
       ))}
     </div>
   );

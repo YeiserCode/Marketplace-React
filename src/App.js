@@ -1,3 +1,4 @@
+// App.js
 import './App.css';
 import Header from './components/Header';
 import Productos from './components/Productos';
@@ -8,15 +9,17 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Navbar from './components/Navbar';
 import ProductDetails from './components/ProductDetails';
+import CarritoItemAgregado from './components/CarritoItemAgregado';
 import React, { useState, useEffect } from 'react';
 import { db } from './firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 
-const App = () => {
+const AppContent = () => {
   const [productos, setProductos] = useState([]);
   const [carrito, setCarrito] = useState([]);
   const [search, setSearch] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const obtenerProductos = async () => {
@@ -29,7 +32,8 @@ const App = () => {
   }, []);
 
   const agregarAlCarrito = (producto) => {
-    setCarrito([...carrito, producto]);
+    setCarrito([...carrito, { ...producto }]);
+    navigate(`/carrito/agregado/${producto.id}`);
   };
 
   const eliminarDelCarrito = (productoAEliminar) => {
@@ -42,26 +46,38 @@ const App = () => {
   };
 
   return (
+    <>
+      <Header />
+      <Navbar onSearch={handleSearchChange} />
+      <Routes>
+        <Route
+          path="/"
+          element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} />}
+        />
+        <Route
+          path="/productos"
+          element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} />}
+        />
+        <Route
+          path="/carrito/agregado/:productId"
+          element={<CarritoItemAgregado findProductById={(productId) => productos.find((producto) => producto.id === productId)} />}
+        />
+        <Route path="/carrito" element={<Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/product/:productId" element={<ProductDetails productos={productos} />} />
+      </Routes>
+      <Footer />
+    </>
+  );
+};
+
+const App = () => {
+  return (
     <div className="App">
       <BrowserRouter>
-        <Header />
-        <Navbar onSearch={handleSearchChange} />
-        <Routes>
-          <Route
-            path="/"
-            element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} />}
-          />
-          <Route
-            path="/productos"
-            element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} />}
-          />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/product/:productId" element={<ProductDetails />} />
-        </Routes>
-        {carrito.length > 0 && <Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />}
-        <Footer />
+        <AppContent />
       </BrowserRouter>
     </div>
   );
