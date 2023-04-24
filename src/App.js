@@ -16,6 +16,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 const App = () => {
   const [productos, setProductos] = useState([]);
   const [carrito, setCarrito] = useState([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const obtenerProductos = async () => {
@@ -26,7 +27,7 @@ const App = () => {
 
     obtenerProductos();
   }, []);
-  
+
   const agregarAlCarrito = (producto) => {
     setCarrito([...carrito, producto]);
   };
@@ -36,14 +37,24 @@ const App = () => {
     setCarrito(nuevoCarrito);
   };
 
+  const handleSearchChange = (value) => {
+    setSearch(value);
+  };
+
   return (
     <div className="App">
       <BrowserRouter>
         <Header />
-        <Navbar />
+        <Navbar onSearch={handleSearchChange} />
         <Routes>
-          <Route path="/" element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} />} />
-          <Route path="/productos" element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} />} />
+          <Route
+            path="/"
+            element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} />}
+          />
+          <Route
+            path="/productos"
+            element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} />}
+          />
           <Route path="/admin" element={<Admin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

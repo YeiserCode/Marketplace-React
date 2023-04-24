@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import Fuse from 'fuse.js';
 import Producto from './Producto';
 import ProductoEnlace from './ProductoEnlace';
 
-const Productos = ({ productos, agregarAlCarrito }) => {
+const Productos = ({ productos, agregarAlCarrito, search }) => {
   const handleProductClick = (producto) => {
-    // Implementa aquí la lógica para manejar el clic en el producto, por ejemplo, navegando a la página de detalles del producto
   };
+
+  const fuse = useMemo(() => {
+    const fuseOptions = {
+      keys: ['nombre', 'descripcion'],
+      includeScore: true,
+      threshold: 0.3,
+    };
+
+    return new Fuse(productos, fuseOptions);
+  }, [productos]);
+
+  const searchResults = search ? fuse.search(search) : productos.map((producto) => ({ item: producto }));
+
+  const filteredProducts = searchResults.map((result) => result.item);
 
   return (
     <div className="productos">
-      {productos.map((producto) => (
+      {filteredProducts.map((producto) => (
         <ProductoEnlace to={`/product/${producto.id}`} key={producto.id}>
           <Producto
             producto={producto}

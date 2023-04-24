@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material';
 import { AccountCircle, ShoppingCart, ListAlt, ExitToApp, PersonAdd, Login } from '@mui/icons-material';
 import { styled } from '@mui/system';
+import SearchBar from './SearchBar';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#3f51b5',
@@ -16,7 +17,7 @@ const StyledLink = styled(Link)({
   marginRight: 10,
 });
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -56,6 +57,7 @@ const Navbar = () => {
             <Typography>Carrito</Typography>
           </StyledLink>
         </IconButton>
+        <SearchBar onChange={onSearch} />
         {user ? (
           <Box display="flex" alignItems="center">
             <IconButton color="inherit">
