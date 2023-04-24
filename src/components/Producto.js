@@ -1,11 +1,17 @@
 import React from 'react';
 
 const Producto = ({ producto, agregarAlCarrito }) => {
+  const handleAgregarAlCarrito = (event) => {
+    event.stopPropagation();
+    agregarAlCarrito(producto);
+  };
+
   return (
     <div className="producto">
-      <h2>{producto.nombre}</h2>
-      <p>{producto.descripcion}</p>
-      <button onClick={() => agregarAlCarrito(producto)}>Agregar al carrito</button>
+      <img src={producto.imagen} alt={producto.nombre} />
+      <h3>{producto.nombre}</h3>
+      <p>{producto.precio}€</p>
+      <button onClick={handleAgregarAlCarrito}>Agregar al carrito</button>
     </div>
   );
 };

@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.producto img,
+.producto h3 {
+  cursor: pointer;
+}
+

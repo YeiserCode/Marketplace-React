@@ -26,7 +26,7 @@ const App = () => {
 
     obtenerProductos();
   }, []);
-
+  
   const agregarAlCarrito = (producto) => {
     setCarrito([...carrito, producto]);
   };
@@ -49,7 +49,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/product/:productId" element={<ProductDetails />} />
         </Routes>
-        <Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />
+        {carrito.length > 0 && <Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />}
         <Footer />
       </BrowserRouter>
     </div>

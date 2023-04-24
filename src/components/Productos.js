@@ -1,14 +1,14 @@
 import React from 'react';
 import Producto from './Producto';
-import { Link } from 'react-router-dom';
+import ProductoEnlace from './ProductoEnlace';
 
 const Productos = ({ productos, agregarAlCarrito }) => {
   return (
     <div className="productos">
       {productos.map((producto) => (
-        <Link to={`/product/${producto.id}`} key={producto.id} style={{ textDecoration: 'none' }}>
+        <ProductoEnlace to={`/product/${producto.id}`} key={producto.id}>
           <Producto producto={producto} agregarAlCarrito={agregarAlCarrito} />
-        </Link>
+        </ProductoEnlace>
       ))}
     </div>
   );
