@@ -1,10 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import Producto from './Producto';
 import { useNavigate } from 'react-router-dom';
+import { Pagination } from '@mui/material';
 
 const Productos = ({ productos, agregarAlCarrito, search }) => {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 2; // Numero de Productos Por Pagina
 
   const agregarProductoAlCarrito = (producto) => {
     agregarAlCarrito(producto);
@@ -29,9 +32,17 @@ const Productos = ({ productos, agregarAlCarrito, search }) => {
 
   const filteredProducts = searchResults.map((result) => result.item);
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className="productos">
-      {filteredProducts.map((producto) => (
+      {currentProducts.map((producto) => (
         <Producto
           key={producto.id}
           producto={producto}
@@ -39,6 +50,12 @@ const Productos = ({ productos, agregarAlCarrito, search }) => {
           handleClick={() => handleClick(producto.id)}
         />
       ))}
+      <Pagination
+        count={Math.ceil(filteredProducts.length / productsPerPage)}
+        page={currentPage}
+        onChange={(event, value) => handlePageChange(value)}
+        color="primary"
+      />
     </div>
   );
 };

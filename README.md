@@ -7,7 +7,10 @@ Este proyecto es una aplicación web de comercio electrónico personalizada, con
 - Visualización de productos
 - Ver Datalles del producto
 - Ver Imagen del producto
+- Paginación para los productos
 - Agregar productos al carrito de compras
+- Producto agregado al carrito
+- Barra de búsqueda para buscar productos por nombre o descripción
 - Eliminar productos del carrito de compras
 
 ## Características Admin
