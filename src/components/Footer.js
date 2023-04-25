@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer>
-      <p>Todos los derechos reservados &copy; 2023</p>
+      <p>Todos los derechos reservados YeiserCode &copy; 2023</p>
     </footer>
   );
 };

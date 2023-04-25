@@ -1,24 +1,64 @@
 import React, { useState } from 'react';
 import AgregarProductos from './AgregarProductos';
 import AgregarCategoria from './AgregarCategoria';
+import DashboardOverview from './DashboardOverview';
+import { Box, Drawer, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { styled } from '@mui/system';
 
-const Admin = () => {
-  const [selectedMenu, setSelectedMenu] = useState('agregarProducto');
+const drawerWidth = 240;
+
+const Main = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  marginLeft: drawerWidth,
+  width: `calc(100% - ${drawerWidth}px)`,
+}));
+
+const Admin = ({ productos, categorias }) => {
+  const [selectedMenu, setSelectedMenu] = useState('dashboardOverview');
+
+  const menuItems = [
+    { label: 'Dashboard', value: 'dashboardOverview' },
+    { label: 'Agregar Producto', value: 'agregarProducto' },
+    { label: 'Agregar Categoría', value: 'agregarCategoria' },
+  ];
 
   return (
-    <div>
-      <h2>Dashboard Administrativo</h2>
-      <nav>
-        <button onClick={() => setSelectedMenu('agregarProducto')}>
-          Agregar Producto
-        </button>
-        <button onClick={() => setSelectedMenu('agregarCategoria')}>
-          Agregar Categoría
-        </button>
-      </nav>
-      {selectedMenu === 'agregarProducto' && <AgregarProductos />}
-      {selectedMenu === 'agregarCategoria' && <AgregarCategoria />}
-    </div>
+    <Box sx={{ display: 'flex', paddingTop: '64px' }}>
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            marginTop: '225px',
+          },
+        }}
+      >
+        <Typography variant="h6" component="div" sx={{ padding: '1rem' }}>
+          Dashboard Administrativo
+        </Typography>
+        <List>
+          {menuItems.map((item) => (
+            <ListItem
+              button
+              key={item.value}
+              selected={selectedMenu === item.value}
+              onClick={() => setSelectedMenu(item.value)}
+            >
+              <ListItemText primary={item.label} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <Main>
+        {selectedMenu === 'dashboardOverview' && <DashboardOverview productos={productos} categorias={categorias} />}
+        {selectedMenu === 'agregarProducto' && <AgregarProductos />}
+        {selectedMenu === 'agregarCategoria' && <AgregarCategoria />}
+      </Main>
+    </Box>
   );
 };
 

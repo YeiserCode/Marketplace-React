@@ -2,6 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { db, storage } from '../../firebaseConfig';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel,
+  CircularProgress,
+} from '@mui/material';
 
 const AgregarProductos = () => {
   const [nombre, setNombre] = useState('');
@@ -11,6 +27,8 @@ const AgregarProductos = () => {
   const [indicePortada, setIndicePortada] = useState(0);
   const [categorias, setCategorias] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const obtenerCategorias = async () => {
@@ -24,6 +42,18 @@ const AgregarProductos = () => {
 
     obtenerCategorias();
   }, []);
+
+  useEffect(() => {
+    let timer;
+    if (message) {
+      timer = setTimeout(() => {
+        setMessage('');
+      }, 3000);
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [message]);
 
   const handleFileChange = async (e) => {
     const files = e.target.files;
@@ -54,84 +84,167 @@ const AgregarProductos = () => {
 
   const agregarProducto = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage('');
 
-    await addDoc(collection(db, 'productos'), {
-      nombre,
-      descripcion,
-      precio: parseFloat(precio),
-      imagenPortada: urlsImagenes[indicePortada],
-      imagenes: urlsImagenes,
-      categoria: categoriaSeleccionada,
-    });
+    if (
+      !nombre.trim() ||
+      !descripcion.trim() ||
+      !precio.trim() ||
+      !categoriaSeleccionada ||
+      urlsImagenes.length === 0
+    ) {
+      setMessage('Por favor, complete todos los campos.');
+      setLoading(false);
+      return;
+    }
 
-    setNombre('');
-    setDescripcion('');
-    setPrecio('');
-    setUrlsImagenes([]);
-    setIndicePortada(0);
-    setCategoriaSeleccionada('');
+    try {
+      await addDoc(collection(db, 'productos'), {
+        nombre,
+        descripcion,
+        precio: parseFloat(precio),
+        imagenPortada: urlsImagenes[indicePortada],
+        imagenes: urlsImagenes,
+        categoria: categoriaSeleccionada,
+      });
+
+      setMessage('Producto agregado correctamente.');
+      setNombre('');
+      setDescripcion('');
+      setPrecio('');
+      setUrlsImagenes([]);
+      setIndicePortada(0);
+      setCategoriaSeleccionada('');
+    } catch (error) {
+      setMessage('Error al agregar el producto. Por favor, inténtalo de nuevo.');
+      console.error('Error al agregar el producto:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
-      <h2>Agregar Producto</h2>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Agregar Producto
+      </Typography>
       <form onSubmit={agregarProducto}>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Descripción"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-        />
-        <input
-          type="number"
-          step="0.01"
-          placeholder="Precio"
-          value={precio}
-          onChange={(e) => setPrecio(e.target.value)}
-        />
-        <input type="file" multiple onChange={handleFileChange} />
-        {urlsImagenes.length > 0 && (
-          <div>
-            <p>Selecciona una imagen de portada:</p>
-            {urlsImagenes.map((url, index) => (
-              <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <img src={url} alt={`Imagen ${index + 1}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-              <input
-                type="radio"
-                name="portada"
-                value={index}
-                checked={indicePortada === index}
-                onChange={handlePortadaChange}
-              />
-            </div>
-          ))}
-        </div>
-      )}
-      <div>
-        <label htmlFor="categoria">Categoría:</label>
-        <select
-          name="categoria"
-          value={categoriaSeleccionada}
-          onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Nombre"
+              variant="outlined"
+              fullWidth
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Descripción"
+              variant="outlined"
+              fullWidth
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Precio"
+              variant="outlined"
+              fullWidth
+              type="number"
+              inputProps={{ step: 0.01 }}
+              value={precio}
+              onChange={(e) => setPrecio(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel htmlFor="categoria">Categoría</InputLabel>
+            <Select
+              labelId="categoria-label"
+              id="categoria"
+              fullWidth
+              value={categoriaSeleccionada}
+              onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+            >
+              <MenuItem value="">
+                <em>-- Seleccione una categoría --</em>
+              </MenuItem>
+              {categorias.map((categoria) => (
+                <MenuItem key={categoria.id} value={categoria.id}>
+                  {categoria.nombre}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+          <Grid item xs={12}>
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={handleFileChange}
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="primary" component="span">
+                Subir imágenes
+              </Button>
+            </label>
+          </Grid>
+          {urlsImagenes.length > 0 && (
+            <Grid item xs={12}>
+              <FormControl component="fieldset">
+                <FormLabel component="legend">
+                  Selecciona una imagen de portada:
+                </FormLabel>
+                <RadioGroup
+                  aria-label="portada"
+                  name="portada"
+                  value={indicePortada}
+                  onChange={handlePortadaChange}
+                  row
+                >
+                  {urlsImagenes.map((url, index) => (
+                    <FormControlLabel
+                      key={index}
+                      value={index}
+                      control={<Radio />}
+                      label={
+                        <img
+                          src={url}
+                          alt={`Imagen ${index + 1}`}
+                          width="100"
+                          height="100"
+                          style={{ objectFit: 'cover', margin: '0 8px' }}
+                        />
+                      }
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+          )}
+          <Grid item xs={12}>
+          <Button type="submit" variant="contained" color="primary" disabled={loading}>
+              {loading ? <CircularProgress size={24} /> : 'Agregar'}
+            </Button>
+          </Grid>
+        </Grid>
+        </form>
+      {message && (
+        <Typography
+          variant="subtitle1"
+          color={message.startsWith('Error') ? 'error' : 'success'}
+          style={{ marginTop: '1rem' }}
         >
-          <option value="">-- Seleccione una categoría --</option>
-          {categorias.map((categoria) => (
-            <option key={categoria.id} value={categoria.id}>
-              {categoria.nombre}
-            </option>
-          ))}
-        </select>
-      </div>
-      <button type="submit">Agregar</button>
-    </form>
-  </div>
-);
+          {message}
+        </Typography>
+      )}
+    </Container>
+  );
 };
 
 export default AgregarProductos;

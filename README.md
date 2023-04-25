@@ -16,6 +16,7 @@ Este proyecto es una aplicación web de comercio electrónico personalizada, con
 ## Características Admin
 - Agregar nuevos productos a la tienda 
 - Agregar categorias
+- Visualizar cantidad de productos y categorias 
 
 ## Requisitos previos
 

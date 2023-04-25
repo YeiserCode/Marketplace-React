@@ -74,7 +74,7 @@ const AppContent = () => {
           element={<CarritoItemAgregado findProductById={(productId) => productos.find((producto) => producto.id === productId)} />}
         />
         <Route path="/carrito" element={<Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin" element={<Admin productos={productos} categorias={categorias} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:productId" element={<ProductDetails productos={productos} />} />
