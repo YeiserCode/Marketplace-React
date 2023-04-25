@@ -23,7 +23,7 @@ const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
   },
 }));
 
-const Producto = ({ producto, agregarAlCarrito, handleClick }) => {
+const Producto = ({ producto, agregarAlCarrito, handleClick, carrito }) => {
   const handleAgregarAlCarrito = (event) => {
     event.stopPropagation();
     agregarAlCarrito(producto, 1);
@@ -34,6 +34,8 @@ const Producto = ({ producto, agregarAlCarrito, handleClick }) => {
       handleClick();
     }
   };
+
+  const estaEnCarrito = carrito.some((item) => item.id === producto.id);
 
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -60,16 +62,17 @@ const Producto = ({ producto, agregarAlCarrito, handleClick }) => {
             size="small"
             onClick={handleAgregarAlCarrito}
             startIcon={<ShoppingCartIcon />}
+            disabled={estaEnCarrito}
             sx={{
-              backgroundColor: '#3483FA',
+              backgroundColor: estaEnCarrito ? 'green' : '#3483FA',
               color: 'white',
               borderRadius: '4px',
               '&:hover': {
-                backgroundColor: '#2866c7',
+                backgroundColor: estaEnCarrito ? 'green' : '#2866c7',
               },
             }}
           >
-            Agregar al carrito
+            {estaEnCarrito ? 'Agregado al carrito' : 'Agregar al carrito'}
           </Button>
         </Grid>
       </StyledCard>

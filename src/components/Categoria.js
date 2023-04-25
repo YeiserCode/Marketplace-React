@@ -5,7 +5,7 @@ import { db } from '../firebaseConfig';
 import Producto from './Producto';
 import { useNavigate } from 'react-router-dom';
 
-const Categoria = ({ agregarAlCarrito }) => {
+const Categoria = ({ agregarAlCarrito, carrito }) => {
   const { categoriaId } = useParams();
   const navigate = useNavigate();
   const [productos, setProductos] = useState([]);
@@ -41,6 +41,7 @@ const Categoria = ({ agregarAlCarrito }) => {
           producto={producto}
           agregarAlCarrito={(producto) => agregarProductoAlCarrito(producto)}
           handleClick={() => handleClick(producto.id)}
+          carrito={carrito}
         />
       ))}
     </div>

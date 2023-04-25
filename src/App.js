@@ -63,11 +63,11 @@ const AppContent = () => {
       <Routes>
         <Route
           path="/"
-          element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} />}
+          element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} carrito={carrito} />}
         />
         <Route
           path="/productos"
-          element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} />}
+          element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} carrito={carrito} />}
         />
         <Route
           path="/carrito/agregado/:productId"
@@ -78,7 +78,7 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:productId" element={<ProductDetails productos={productos} />} />
-        <Route path="/categorias/:categoriaId" element={<Categoria productos={productos} agregarAlCarrito={agregarAlCarrito} />} />
+        <Route path="/categorias/:categoriaId" element={<Categoria productos={productos} agregarAlCarrito={agregarAlCarrito} carrito={carrito} />} />
       </Routes>
       <Footer />
     </>

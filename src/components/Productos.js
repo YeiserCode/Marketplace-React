@@ -4,7 +4,7 @@ import Producto from './Producto';
 import { useNavigate } from 'react-router-dom';
 import { Pagination } from '@mui/material';
 
-const Productos = ({ productos, agregarAlCarrito, search }) => {
+const Productos = ({ productos, agregarAlCarrito, search, carrito }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 2; // Numero de Productos Por Pagina
@@ -48,6 +48,7 @@ const Productos = ({ productos, agregarAlCarrito, search }) => {
           producto={producto}
           agregarAlCarrito={(producto) => agregarProductoAlCarrito(producto)}
           handleClick={() => handleClick(producto.id)}
+          carrito={carrito}
         />
       ))}
       <Pagination
