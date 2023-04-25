@@ -14,8 +14,8 @@ Este proyecto es una aplicación web de comercio electrónico personalizada, con
 - Eliminar productos del carrito de compras
 
 ## Características Admin
-- Interfaz de administración para agregar nuevos productos a la tienda
-
+- Agregar nuevos productos a la tienda 
+- Agregar categorias
 
 ## Requisitos previos
 

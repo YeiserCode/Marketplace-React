@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Productos from './components/Productos';
 import Carrito from './components/Carrito';
 import Footer from './components/Footer';
-import Admin from './components/Admin';
+import Admin from './components/admin/Admin';
 import Login from './components/Login';
 import Register from './components/Register';
 import Navbar from './components/Navbar';
