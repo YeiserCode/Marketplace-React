@@ -17,6 +17,7 @@ import {
   FormControlLabel,
   FormLabel,
   CircularProgress,
+  Checkbox,
 } from '@mui/material';
 
 const AgregarProductos = () => {
@@ -29,6 +30,7 @@ const AgregarProductos = () => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [enOferta, setEnOferta] = useState(false);
 
   useEffect(() => {
     const obtenerCategorias = async () => {
@@ -107,6 +109,7 @@ const AgregarProductos = () => {
         imagenPortada: urlsImagenes[indicePortada],
         imagenes: urlsImagenes,
         categoria: categoriaSeleccionada,
+        oferta: enOferta,
       });
 
       setMessage('Producto agregado correctamente.');
@@ -179,6 +182,19 @@ const AgregarProductos = () => {
               ))}
             </Select>
           </Grid>
+          <Grid item xs={12} sm={6}>
+          <FormControlLabel
+             control={
+              <Checkbox
+              checked={enOferta}
+              onChange={(e) => setEnOferta(e.target.checked)}
+              name="enOferta"
+              color="primary"
+              />
+            }
+            label="En oferta"
+            />
+          </Grid>  
           <Grid item xs={12}>
             <input
               accept="image/*"

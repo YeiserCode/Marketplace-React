@@ -2,12 +2,12 @@ import React, { useState, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import Producto from './Producto';
 import { useNavigate } from 'react-router-dom';
-import { Pagination } from '@mui/material';
+import { Pagination, Grid, Container } from '@mui/material';
 
 const Productos = ({ productos, agregarAlCarrito, search, carrito }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 2; // Numero de Productos Por Pagina
+  const productsPerPage = 8;
 
   const agregarProductoAlCarrito = (producto) => {
     agregarAlCarrito(producto);
@@ -41,23 +41,26 @@ const Productos = ({ productos, agregarAlCarrito, search, carrito }) => {
   };
 
   return (
-    <div className="productos">
-      {currentProducts.map((producto) => (
-        <Producto
-          key={producto.id}
-          producto={producto}
-          agregarAlCarrito={(producto) => agregarProductoAlCarrito(producto)}
-          handleClick={() => handleClick(producto.id)}
-          carrito={carrito}
-        />
-      ))}
+    <Container maxWidth="lg" sx={{ marginTop: 4 }}>
+      <Grid container spacing={4}>
+        {currentProducts.map((producto) => (
+          <Producto
+            key={producto.id}
+            producto={producto}
+            agregarAlCarrito={(producto) => agregarProductoAlCarrito(producto)}
+            handleClick={() => handleClick(producto.id)}
+            carrito={carrito}
+          />
+        ))}
+      </Grid>
       <Pagination
         count={Math.ceil(filteredProducts.length / productsPerPage)}
         page={currentPage}
         onChange={(event, value) => handlePageChange(value)}
         color="primary"
+        sx={{ marginTop: 4, display: 'flex', justifyContent: 'center' }}
       />
-    </div>
+    </Container>
   );
 };
 
