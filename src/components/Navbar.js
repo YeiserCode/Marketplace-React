@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { AppBar, Toolbar, Typography, IconButton, Box, MenuItem, Menu, Button } from '@mui/material';
-import { AccountCircle, ShoppingCart, ListAlt, ExitToApp, PersonAdd, Login } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography, IconButton, Box, MenuItem, Menu } from '@mui/material';
+import { AccountCircle, ShoppingCart, ListAlt, ExitToApp, PersonAdd, Login, Category } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import SearchBar from './SearchBar';
 import { collection, getDocs } from 'firebase/firestore';
@@ -64,30 +64,16 @@ const Navbar = ({ onSearch }) => {
   return (
     <StyledAppBar position="static">
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ flexGrow: 0 }}>
           <StyledLink to="/">Mi Tienda</StyledLink>
         </Typography>
-        <IconButton color="inherit">
-          <StyledLink to="/productos">
-            <ListAlt />
-            <Typography>Productos</Typography>
-          </StyledLink>
-        </IconButton>
-        <IconButton color="inherit">
-          <StyledLink to="/carrito">
-            <ShoppingCart />
-            <Typography>Carrito</Typography>
-          </StyledLink>
-        </IconButton>
-        <SearchBar onChange={onSearch} />
-        <Button
-          aria-controls="categorias-menu"
-          aria-haspopup="true"
-          color="inherit"
-          onClick={handleClick}
-        >
-          Categorías
-        </Button>
+        <SearchBar onChange={onSearch} sx={{ flexGrow: 1 }} />
+        <StyledLink onClick={handleClick} color="inherit" sx={{ ml: 2 }}>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Category />
+            <Typography sx={{ mt: 0.5 }}>Categorías</Typography>
+          </Box>
+        </StyledLink>
         <Menu
           id="categorias-menu"
           anchorEl={anchorEl}
@@ -106,8 +92,20 @@ const Navbar = ({ onSearch }) => {
             </MenuItem>
           ))}
         </Menu>
+        <IconButton color="inherit" sx={{ ml: 2 }}>
+          <StyledLink to="/productos">
+            <ListAlt />
+            <Typography>Productos</Typography>
+          </StyledLink>
+        </IconButton>
+        <IconButton color="inherit" sx={{ ml: 2 }}>
+          <StyledLink to="/carrito">
+            <ShoppingCart />
+            <Typography>Carrito</Typography>
+          </StyledLink>
+        </IconButton>
         {user ? (
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" sx={{ ml: 2 }}>
             <IconButton color="inherit">
               <AccountCircle />
             </IconButton>
@@ -119,13 +117,13 @@ const Navbar = ({ onSearch }) => {
           </Box>
         ) : (
           <>
-            <IconButton color="inherit">
+            <IconButton color="inherit" sx={{ ml: 2 }}>
               <StyledLink to="/register">
                 <PersonAdd />
                 <Typography>Registrarse</Typography>
               </StyledLink>
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton color="inherit" sx={{ ml: 2 }}>
               <StyledLink to="/login">
                 <Login />
                 <Typography>Iniciar sesión</Typography>
