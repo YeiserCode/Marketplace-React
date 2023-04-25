@@ -1,8 +1,8 @@
-header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    font-size: 2rem;
-  }
-  
+.header {
+  background-color: #2e43b9;
+}
+
+.title {
+  flex-grow: 1;
+  font-family: 'Roboto', sans-serif;
+}

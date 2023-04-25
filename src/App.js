@@ -60,6 +60,7 @@ const AppContent = () => {
     <>
       <Header />
       <Navbar onSearch={handleSearchChange} categorias={categorias} />
+      <main className="main-content">
       <Routes>
         <Route
           path="/"
@@ -80,6 +81,7 @@ const AppContent = () => {
         <Route path="/product/:productId" element={<ProductDetails productos={productos} />} />
         <Route path="/categorias/:categoriaId" element={<Categoria productos={productos} agregarAlCarrito={agregarAlCarrito} carrito={carrito} />} />
       </Routes>
+      </main>
       <Footer />
     </>
   );
