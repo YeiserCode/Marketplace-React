@@ -1,4 +1,3 @@
-// App.js
 import './App.css';
 import Header from './components/Header';
 import Productos from './components/Productos';
@@ -10,6 +9,7 @@ import Register from './components/Register';
 import Navbar from './components/Navbar';
 import ProductDetails from './components/ProductDetails';
 import CarritoItemAgregado from './components/CarritoItemAgregado';
+import Categoria from './components/Categoria';
 import React, { useState, useEffect } from 'react';
 import { db } from './firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
@@ -17,6 +17,7 @@ import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 
 const AppContent = () => {
   const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [carrito, setCarrito] = useState([]);
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
@@ -29,6 +30,16 @@ const AppContent = () => {
     };
 
     obtenerProductos();
+  }, []);
+
+  useEffect(() => {
+    const obtenerCategorias = async () => {
+      const categoriasSnapshot = await getDocs(collection(db, 'categorias'));
+      const categoriasArray = categoriasSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setCategorias(categoriasArray);
+    };
+
+    obtenerCategorias();
   }, []);
 
   const agregarAlCarrito = (producto) => {
@@ -48,7 +59,7 @@ const AppContent = () => {
   return (
     <>
       <Header />
-      <Navbar onSearch={handleSearchChange} />
+      <Navbar onSearch={handleSearchChange} categorias={categorias} />
       <Routes>
         <Route
           path="/"
@@ -67,6 +78,7 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:productId" element={<ProductDetails productos={productos} />} />
+        <Route path="/categorias/:categoriaId" element={<Categoria productos={productos} agregarAlCarrito={agregarAlCarrito} />} />
       </Routes>
       <Footer />
     </>
