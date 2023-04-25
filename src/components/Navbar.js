@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Box, MenuItem, Menu, Button } from '@mui/material';
 import { AccountCircle, ShoppingCart, ListAlt, ExitToApp, PersonAdd, Login } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import SearchBar from './SearchBar';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#3f51b5',
@@ -19,6 +21,8 @@ const StyledLink = styled(Link)({
 
 const Navbar = ({ onSearch }) => {
   const [user, setUser] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -31,12 +35,30 @@ const Navbar = ({ onSearch }) => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const obtenerCategorias = async () => {
+      const categoriasSnapshot = await getDocs(collection(db, 'categorias'));
+      const categoriasLista = categoriasSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      setCategorias(categoriasLista);
+    };
+
+    obtenerCategorias();
+  }, []);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -58,6 +80,32 @@ const Navbar = ({ onSearch }) => {
           </StyledLink>
         </IconButton>
         <SearchBar onChange={onSearch} />
+        <Button
+          aria-controls="categorias-menu"
+          aria-haspopup="true"
+          color="inherit"
+          onClick={handleClick}
+        >
+          Categorías
+        </Button>
+        <Menu
+          id="categorias-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          {categorias.map((categoria) => (
+            <MenuItem
+              key={categoria.id}
+              onClick={handleClose}
+              component={Link}
+              to={`/categorias/${categoria.id}`}
+            >
+              {categoria.nombre}
+            </MenuItem>
+          ))}
+        </Menu>
         {user ? (
           <Box display="flex" alignItems="center">
             <IconButton color="inherit">
