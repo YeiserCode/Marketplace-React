@@ -2,9 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { AppBar, Toolbar, Typography, IconButton, Box, MenuItem, Menu } from '@mui/material';
-import { AccountCircle, ShoppingCart, ListAlt, ExitToApp, PersonAdd, Login, Category } from '@mui/icons-material';
-import { styled } from '@mui/system';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Box,
+  MenuItem,
+  Menu,
+  Drawer,
+  List,
+  useMediaQuery,
+  Divider,
+} from '@mui/material';
+import { ShoppingCart, ListAlt, ExitToApp, PersonAdd, Login, Category, Menu as MenuIcon } from '@mui/icons-material';
+import { styled, useTheme } from '@mui/system';
 import SearchBar from './SearchBar';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
@@ -23,6 +35,10 @@ const Navbar = ({ onSearch }) => {
   const [user, setUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categorias, setCategorias] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -61,6 +77,71 @@ const Navbar = ({ onSearch }) => {
     setAnchorEl(null);
   };
 
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  const renderMenuItems = () => (
+    <>
+      <MenuItem
+        component={Link}
+        to="/productos"
+        onClick={() => {
+          if (isMobile) handleDrawerToggle();
+        }}
+      >
+        <ListAlt />
+        Productos
+      </MenuItem>
+      <MenuItem
+        component={Link}
+        to="/carrito"
+        onClick={() => {
+          if (isMobile) handleDrawerToggle();
+        }}
+      >
+        <ShoppingCart />
+        Carrito
+      </MenuItem>
+      {user ? (
+        <>
+          <MenuItem
+            onClick={() => {
+              handleLogout();
+              if (isMobile) handleDrawerToggle();
+            }}
+          >
+            <ExitToApp />
+            Cerrar sesión
+          </MenuItem>
+          </>
+      ) : (
+        <>
+          <MenuItem
+            component={Link}
+            to="/register"
+            onClick={() => {
+              if (isMobile) handleDrawerToggle();
+            }}
+          >
+            <PersonAdd />
+            Registrarse
+          </MenuItem>
+          <MenuItem
+            component={Link}
+            to="/login"
+            onClick={() => {
+              if (isMobile) handleDrawerToggle();
+            }}
+          >
+            <Login />
+            Iniciar sesión
+          </MenuItem>
+        </>
+      )}
+    </>
+  );
+
   return (
     <StyledAppBar position="static">
       <Toolbar>
@@ -92,44 +173,20 @@ const Navbar = ({ onSearch }) => {
             </MenuItem>
           ))}
         </Menu>
-        <IconButton color="inherit" sx={{ ml: 2 }}>
-          <StyledLink to="/productos">
-            <ListAlt />
-            <Typography>Productos</Typography>
-          </StyledLink>
-        </IconButton>
-        <IconButton color="inherit" sx={{ ml: 2 }}>
-          <StyledLink to="/carrito">
-            <ShoppingCart />
-            <Typography>Carrito</Typography>
-          </StyledLink>
-        </IconButton>
-        {user ? (
-          <Box display="flex" alignItems="center" sx={{ ml: 2 }}>
-            <IconButton color="inherit">
-              <AccountCircle />
-            </IconButton>
-            <Typography>{user.displayName}</Typography>
-            <IconButton color="inherit" onClick={handleLogout}>
-              <ExitToApp />
-              <Typography>Cerrar sesión</Typography>
-            </IconButton>
-          </Box>
-        ) : (
+        {isMobile ? (
           <>
-            <IconButton color="inherit" sx={{ ml: 2 }}>
-              <StyledLink to="/register">
-                <PersonAdd />
-                <Typography>Registrarse</Typography>
-              </StyledLink>
+            <IconButton color="inherit" onClick={handleDrawerToggle}>
+              <MenuIcon />
             </IconButton>
-            <IconButton color="inherit" sx={{ ml: 2 }}>
-              <StyledLink to="/login">
-                <Login />
-                <Typography>Iniciar sesión</Typography>
-              </StyledLink>
-            </IconButton>
+            <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
+              <List>
+                <Divider />
+                {renderMenuItems()}
+              </List>
+            </Drawer>
           </>
+        ) : (
+          renderMenuItems()
         )}
       </Toolbar>
     </StyledAppBar>
