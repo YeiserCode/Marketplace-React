@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDocs, collection, query, where } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
-import Producto from './Producto';
+import { db } from '../../config/firebaseConfig';
+import Producto from '../product/Product';
 import { useNavigate } from 'react-router-dom';
 
-const Categoria = ({ agregarAlCarrito, carrito }) => {
+const Category = ({ agregarAlCarrito, carrito }) => {
   const { categoriaId } = useParams();
   const navigate = useNavigate();
   const [productos, setProductos] = useState([]);
@@ -48,4 +48,4 @@ const Categoria = ({ agregarAlCarrito, carrito }) => {
   );
 };
 
-export default Categoria;
+export default Category;

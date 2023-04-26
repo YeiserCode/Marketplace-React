@@ -1,50 +1,24 @@
 import './App.css';
-import Header from './components/Header';
-import Productos from './components/Productos';
-import Carrito from './components/Carrito';
-import Footer from './components/Footer';
-import Admin from './components/admin/Admin';
-import Login from './components/Login';
-import Register from './components/Register';
-import Navbar from './components/Navbar';
-import ProductDetails from './components/ProductDetails';
-import CarritoItemAgregado from './components/CarritoItemAgregado';
-import Categoria from './components/Categoria';
-import React, { useState, useEffect } from 'react';
-import { db } from './firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
+import Navbar from './components/navbar/Navbar';
+import React, { useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+
+import theme from './theme/theme';
+import useProducts from './hooks/useProducts';
+import useCategories from './hooks/useCategories';
+import AppRoutes from './routes/AppRoutes';
 
 const AppContent = () => {
-  const [productos, setProductos] = useState([]);
-  const [categorias, setCategorias] = useState([]);
+  const [productos] = useProducts();
+  const [categorias] = useCategories();
   const [carrito, setCarrito] = useState([]);
   const [search, setSearch] = useState('');
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const obtenerProductos = async () => {
-      const productosSnapshot = await getDocs(collection(db, 'productos'));
-      const productosArray = productosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setProductos(productosArray);
-    };
-
-    obtenerProductos();
-  }, []);
-
-  useEffect(() => {
-    const obtenerCategorias = async () => {
-      const categoriasSnapshot = await getDocs(collection(db, 'categorias'));
-      const categoriasArray = categoriasSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setCategorias(categoriasArray);
-    };
-
-    obtenerCategorias();
-  }, []);
 
   const agregarAlCarrito = (producto) => {
     setCarrito([...carrito, { ...producto }]);
-    navigate(`/carrito/agregado/${producto.id}`);
   };
 
   const eliminarDelCarrito = (productoAEliminar) => {
@@ -61,26 +35,15 @@ const AppContent = () => {
       <Header />
       <Navbar onSearch={handleSearchChange} categorias={categorias} />
       <main className="main-content">
-      <Routes>
-        <Route
-          path="/"
-          element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} carrito={carrito} />}
+        <AppRoutes
+          productos={productos}
+          carrito={carrito}
+          search={search}
+          agregarAlCarrito={agregarAlCarrito}
+          eliminarDelCarrito={eliminarDelCarrito}
+          handleSearchChange={handleSearchChange}
+          categorias={categorias}
         />
-        <Route
-          path="/productos"
-          element={<Productos productos={productos} agregarAlCarrito={agregarAlCarrito} search={search} carrito={carrito} />}
-        />
-        <Route
-          path="/carrito/agregado/:productId"
-          element={<CarritoItemAgregado findProductById={(productId) => productos.find((producto) => producto.id === productId)} />}
-        />
-        <Route path="/carrito" element={<Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />} />
-        <Route path="/admin" element={<Admin productos={productos} categorias={categorias} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/product/:productId" element={<ProductDetails productos={productos} />} />
-        <Route path="/categorias/:categoriaId" element={<Categoria productos={productos} agregarAlCarrito={agregarAlCarrito} carrito={carrito} />} />
-      </Routes>
       </main>
       <Footer />
     </>
@@ -89,11 +52,13 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Box, Typography, Button, Card, CardContent, CardMedia } from '@mui/material';
 
-const CarritoItemAgregado = ({ findProductById }) => {
+const AddedCartProduct = ({ findProductById }) => {
   const { productId } = useParams();
   const [producto, setProducto] = useState(null);
 
@@ -47,4 +47,4 @@ const CarritoItemAgregado = ({ findProductById }) => {
   );
 };
 
-export default CarritoItemAgregado;
+export default AddedCartProduct;

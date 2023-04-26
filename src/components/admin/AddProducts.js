@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db, storage } from '../../firebaseConfig';
+import { db, storage } from '../../config/firebaseConfig';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
@@ -20,7 +20,7 @@ import {
   Checkbox,
 } from '@mui/material';
 
-const AgregarProductos = () => {
+const AddProducts = () => {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [precio, setPrecio] = useState('');
@@ -263,4 +263,4 @@ const AgregarProductos = () => {
   );
 };
 
-export default AgregarProductos;
+export default AddProducts;

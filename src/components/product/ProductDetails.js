@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { db } from '../firebaseConfig';
+import { db } from '../../config/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { Container, Typography, Box, Paper, Grid, Modal } from '@mui/material';
 import { makeStyles } from '@mui/styles';

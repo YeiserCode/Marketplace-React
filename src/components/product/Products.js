@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import Fuse from 'fuse.js';
-import Producto from './Producto';
+import Producto from './Product';
 import { useNavigate } from 'react-router-dom';
 import { Pagination, Grid, Container } from '@mui/material';
 
-const Productos = ({ productos, agregarAlCarrito, search, carrito }) => {
+const Products = ({ productos, agregarAlCarrito, search, carrito }) => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
@@ -64,4 +64,4 @@ const Productos = ({ productos, agregarAlCarrito, search, carrito }) => {
   );
 };
 
-export default Productos;
+export default Products;

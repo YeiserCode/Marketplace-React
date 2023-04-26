@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { auth } from '../firebaseConfig';
+import { auth } from '../../config/firebaseConfig';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import {
   AppBar,
@@ -17,9 +17,9 @@ import {
 } from '@mui/material';
 import { ShoppingCart, ListAlt, ExitToApp, PersonAdd, Login, Category, Menu as MenuIcon } from '@mui/icons-material';
 import { styled, useTheme } from '@mui/system';
-import SearchBar from './SearchBar';
+import SearchBar from '../search/SearchBar';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
+import { db } from '../../config/firebaseConfig';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#3f51b5',

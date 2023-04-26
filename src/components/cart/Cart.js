@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Button, Card, CardContent, CardMedia } from '@mui/material';
 
-const Carrito = ({ carrito, eliminarDelCarrito }) => {
+const Cart = ({ carrito, eliminarDelCarrito }) => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center" p={3}>
       <Typography variant="h4">Carrito de compras</Typography>
@@ -34,4 +34,4 @@ const Carrito = ({ carrito, eliminarDelCarrito }) => {
   );
 };
 
-export default Carrito;
+export default Cart;

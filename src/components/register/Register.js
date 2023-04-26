@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import {
   Button,
   Container,
@@ -9,8 +9,11 @@ import {
   CircularProgress,
   Box,
 } from '@mui/material';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import { db } from '../../config/firebaseConfig';
 
 const Register = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,7 +24,7 @@ const Register = () => {
     setLoading(true);
     setMessage('');
 
-    if (!email || !password) {
+    if (!name || !email || !password) {
       setMessage('Por favor, completa todos los campos.');
       setLoading(false);
       return;
@@ -29,8 +32,21 @@ const Register = () => {
 
     const auth = getAuth();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Actualizar el perfil del usuario con el nombre y el avatar
+      await updateProfile(user, {
+        displayName: name,
+      });
+
+      // Almacenar el nombre del usuario en Firestore
+      await setDoc(doc(collection(db, 'users'), user.uid), {
+        name: name,
+      });
+
       setMessage('Registro exitoso');
+      setName('');
       setEmail('');
       setPassword('');
     } catch (error) {
@@ -54,6 +70,15 @@ const Register = () => {
       </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} sm={8} md={6}>
+            <TextField
+              label="Nombre"
+              variant="outlined"
+              fullWidth
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Grid>
           <Grid item xs={12} sm={8} md={6}>
             <TextField
               label="Correo electrónico"

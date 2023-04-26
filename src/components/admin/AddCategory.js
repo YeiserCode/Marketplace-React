@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../../firebaseConfig';
+import { db } from '../../config/firebaseConfig';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import {
   Container,
@@ -15,7 +15,7 @@ const FormContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(3),
 }));
 
-const AgregarCategoria = () => {
+const AddCategory = () => {
   const [nombreCategoria, setNombreCategoria] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -98,4 +98,4 @@ const AgregarCategoria = () => {
   );
 };
 
-export default AgregarCategoria;
+export default AddCategory;
