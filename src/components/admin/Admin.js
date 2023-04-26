@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AgregarProductos from './AddProducts';
+import AgregarProductos from './AddProducts/AddProducts';
 import AgregarCategoria from './AddCategory';
 import DashboardOverview from './DashboardOverview';
 import { Box, Drawer, List, ListItem, ListItemText, Typography } from '@mui/material';
