@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import AgregarProductos from './AddProducts/AddProducts';
-import AgregarCategoria from './AddCategory';
-import DashboardOverview from './DashboardOverview';
+import AgregarProductos from '../AddProducts/AddProducts';
+import AgregarCategoria from '../AddCategory/AddCategory';
+import DashboardOverview from '../DashboardOverview/DashboardOverview';
 import { Box, Drawer, List, ListItem, ListItemText, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
@@ -14,7 +14,7 @@ const Main = styled(Box)(({ theme }) => ({
   width: `calc(100% - ${drawerWidth}px)`,
 }));
 
-const Admin = ({ productos, categorias }) => {
+const Dashboard = ({ productos, categorias }) => {
   const [selectedMenu, setSelectedMenu] = useState('dashboardOverview');
 
   const menuItems = [
@@ -62,4 +62,4 @@ const Admin = ({ productos, categorias }) => {
   );
 };
 
-export default Admin;
+export default Dashboard;

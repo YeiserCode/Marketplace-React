@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { db } from '../../config/firebaseConfig';
+import React, { useState } from 'react';
+import { db } from '../../../config/firebaseConfig';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import {
   Container,
@@ -15,22 +15,9 @@ const FormContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(3),
 }));
 
-const AddCategory = () => {
+const AddCategoryForm = ({ setMessage }) => {
   const [nombreCategoria, setNombreCategoria] = useState('');
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    let timer;
-    if (message) {
-      timer = setTimeout(() => {
-        setMessage('');
-      }, 3000);
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [message]);
 
   const agregarCategoria = async (e) => {
     e.preventDefault();
@@ -85,17 +72,10 @@ const AddCategory = () => {
               {loading ? <CircularProgress size={24} /> : 'Agregar'}
             </Button>
           </Grid>
-          {message && (
-            <Grid item xs={12}>
-              <Typography variant="body1" color={message.startsWith('Error') ? 'error' : 'success'}>
-                {message}
-              </Typography>
-            </Grid>
-          )}
         </Grid>
       </form>
     </FormContainer>
   );
 };
 
-export default AddCategory;
+export default AddCategoryForm;

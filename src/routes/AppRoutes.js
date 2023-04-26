@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Productos from '../components/product/Products';
 import Carrito from '../components/cart/Cart';
-import Admin from '../components/admin/Admin';
+import Admin from '../components/admin/Dashboard/Dashboard';
 import Login from '../components/login/Login';
 import Profile from '../components/user/UserProfile';
 import Register from '../components/register/Register';
