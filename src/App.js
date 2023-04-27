@@ -2,9 +2,11 @@ import './App.css';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Navbar from './components/navbar/Navbar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
+import { setUser } from './store/userSlice';
 
 import theme from './theme/theme';
 import useProducts from './hooks/useProducts';
@@ -51,6 +53,20 @@ const AppContent = () => {
 };
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const loadUserFromLocalStorage = () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        dispatch(setUser(user));
+      }
+    };
+
+    loadUserFromLocalStorage();
+  }, [dispatch]);
+
   return (
     <ThemeProvider theme={theme}>
       <div className="App">

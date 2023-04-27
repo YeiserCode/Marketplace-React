@@ -9,8 +9,10 @@ import Register from '../components/register/Register';
 import ProductDetails from '../components/product/ProductDetails';
 import CarritoItemAgregado from '../components/cart/AddedCartProduct';
 import Categoria from '../components/category/Category';
+import withAdminAuth from './withAdminAuth';
 
 const AppRoutes = ({ productos, carrito, search, agregarAlCarrito, eliminarDelCarrito, handleSearchChange, categorias }) => {
+  const AdminWithAuth = withAdminAuth(Admin);
   return (
     <Routes>
       <Route
@@ -26,7 +28,7 @@ const AppRoutes = ({ productos, carrito, search, agregarAlCarrito, eliminarDelCa
         element={<CarritoItemAgregado findProductById={(productId) => productos.find((producto) => producto.id === productId)} />}
       />
       <Route path="/carrito" element={<Carrito carrito={carrito} eliminarDelCarrito={eliminarDelCarrito} />} />
-      <Route path="/admin" element={<Admin productos={productos} categorias={categorias} />} />
+      <Route path="/admin" element={<AdminWithAuth productos={productos} categorias={categorias} />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/register" element={<Register />} />

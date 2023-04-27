@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import {
   Button,
   Container,
@@ -10,6 +10,12 @@ import {
   Box,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/userSlice';
+import { auth, db } from '../../config/firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const { t } = useTranslation();
@@ -17,22 +23,38 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-
+  
     if (!email || !password) {
       setMessage(t('allFieldsRequired'));
       setLoading(false);
       return;
     }
   
-    const auth = getAuth();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log(db);
+      const { uid } = userCredential.user;
+  
+      const userDocRef = doc(db, 'users', uid);
+      const userDoc = await getDoc(userDocRef);
+      const userData = userDoc.data();
+      const role = userData.role;
+      dispatch(setUser({ uid, ...userData, userType: role }));
       setMessage(t('successfulSignIn'));
+      
+      localStorage.setItem('user', JSON.stringify({ uid, ...userData, userType: role }));
+  
+      if (role === 'admin') {
+        navigate('/admin');
+      }
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         setMessage(t('emailNotRegistered'));
@@ -45,7 +67,7 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   return (
     <Container>
