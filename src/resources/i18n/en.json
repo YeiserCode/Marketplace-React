@@ -3,6 +3,15 @@
     "loading": "Loading...",
     "viewCart": "View cart",
     "shoppingCart": "Shopping Cart",
-    "remove": "Remove"
+    "title": "React Open Source Store",
+    "remove": "Remove",
+    "signIn": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "emailNotRegistered": "The email is not registered.",
+    "incorrectPassword": "The password is incorrect.",
+    "signInError": "Error signing in. Please try again.",
+    "allFieldsRequired": "Please complete all fields.",
+    "successfulSignIn": "Successful sign in."
   }
   

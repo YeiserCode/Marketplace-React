@@ -3,6 +3,15 @@
     "loading": "Cargando...",
     "viewCart": "Ver carrito",
     "shoppingCart": "Carrito de compras",
-    "remove": "Eliminar"
+    "title": "Tienda Código Abierto React",
+    "remove": "Eliminar",
+    "signIn": "Iniciar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "emailNotRegistered": "El correo electrónico no está registrado.",
+    "incorrectPassword": "La contraseña es incorrecta.",
+    "signInError": "Error al iniciar sesión. Por favor, inténtalo de nuevo.",
+    "allFieldsRequired": "Por favor, completa todos los campos.",
+    "successfulSignIn": "Inicio de sesión exitoso."
   }
   

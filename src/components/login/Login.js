@@ -9,8 +9,10 @@ import {
   CircularProgress,
   Box,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,22 +24,22 @@ const Login = () => {
     setMessage('');
 
     if (!email || !password) {
-      setMessage('Por favor, completa todos los campos.');
+      setMessage(t('allFieldsRequired'));
       setLoading(false);
       return;
     }
-
+  
     const auth = getAuth();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setMessage('Inicio de sesión exitoso');
+      setMessage(t('successfulSignIn'));
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
-        setMessage('El correo electrónico no está registrado.');
+        setMessage(t('emailNotRegistered'));
       } else if (error.code === 'auth/wrong-password') {
-        setMessage('La contraseña es incorrecta.');
+        setMessage(t('incorrectPassword'));
       } else {
-        setMessage('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
+        setMessage(t('signInError'));
       }
       console.error('Error al iniciar sesión:', error);
     } finally {
@@ -48,13 +50,13 @@ const Login = () => {
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        Iniciar sesión
+        {t('signIn')}
       </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} sm={8} md={6}>
             <TextField
-              label="Correo electrónico"
+              label={t('email')}
               variant="outlined"
               fullWidth
               type="email"
@@ -64,7 +66,7 @@ const Login = () => {
           </Grid>
           <Grid item xs={12} sm={8} md={6}>
             <TextField
-              label="Contraseña"
+              label={t('password')}
               variant="outlined"
               fullWidth
               type="password"
@@ -80,7 +82,7 @@ const Login = () => {
                 color="primary"
                 disabled={loading}
               >
-                {loading ? <CircularProgress size={24} /> : 'Iniciar sesión'}
+                {loading ? <CircularProgress size={24} /> : t('signIn')}
               </Button>
             </Box>
           </Grid>

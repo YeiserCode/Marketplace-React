@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 const Header = () => {
   const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleChangeLanguage = (language) => {
@@ -26,7 +27,7 @@ const Header = () => {
     <AppBar position="static" className={styles.header}>
       <Toolbar>
         <Typography variant="h6" className={styles.title}>
-          Tienda Código Abierto React
+          {t('title')}
         </Typography>
         <IconButton color="inherit" aria-label="language" onClick={handleMenuOpen}>
           <LanguageIcon />
