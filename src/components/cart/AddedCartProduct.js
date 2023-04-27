@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Box, Typography, Button, Card, CardContent, CardMedia } from '@mui/material';
+import { useTranslation } from "react-i18next";
 
 const AddedCartProduct = ({ findProductById }) => {
   const { productId } = useParams();
   const [producto, setProducto] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const product = findProductById(productId);
@@ -12,7 +14,7 @@ const AddedCartProduct = ({ findProductById }) => {
   }, [productId, findProductById]);
 
   if (!producto) {
-    return <div>Cargando...</div>;
+    return <div>{t("loading")}</div>;
   }
 
   const imageUrl = producto.imagenes?.[0] || '';
@@ -28,7 +30,7 @@ const AddedCartProduct = ({ findProductById }) => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Producto agregado al carrito
+            {t("addedToCart")}
           </Typography>
           <Typography variant="h6" component="div" sx={{ mt: 1 }}>
             {producto.nombre}
@@ -39,7 +41,7 @@ const AddedCartProduct = ({ findProductById }) => {
         </CardContent>
         <Box mt={2} display="flex" justifyContent="center">
           <Button variant="contained" color="primary" component={Link} to="/carrito" sx={{ transition: 'all 0.3s' }}>
-            Ver carrito
+            {t("viewCart")}
           </Button>
         </Box>
       </Card>

@@ -6,3 +6,11 @@
   flex-grow: 1;
   font-family: 'Roboto', sans-serif;
 }
+
+.languageMenu {
+  padding: 8px 0;
+}
+
+.menuButton {
+  margin-right: 16px;
+}
