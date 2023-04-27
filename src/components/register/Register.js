@@ -43,6 +43,7 @@ const Register = () => {
 
       await setDoc(doc(collection(db, 'users'), user.uid), {
         name: name,
+        role: 'user',
       });
 
       setMessage(t('successful_registration'));
