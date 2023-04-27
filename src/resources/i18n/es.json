@@ -12,6 +12,12 @@
     "incorrectPassword": "La contraseña es incorrecta.",
     "signInError": "Error al iniciar sesión. Por favor, inténtalo de nuevo.",
     "allFieldsRequired": "Por favor, completa todos los campos.",
-    "successfulSignIn": "Inicio de sesión exitoso."
+    "successfulSignIn": "Inicio de sesión exitoso.",
+    "myStore": "Mi Tienda",
+    "categories": "Categorías",
+    "products": "Productos",
+    "cart": "Carrito",
+    "signUp": "Registrarse",
+    "logOut": "Cerrar sesión"
   }
   

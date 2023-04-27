@@ -20,6 +20,7 @@ import { styled, useTheme } from '@mui/system';
 import SearchBar from '../search/SearchBar';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebaseConfig';
+import { useTranslation } from 'react-i18next';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#3f51b5',
@@ -32,6 +33,7 @@ const StyledLink = styled(Link)({
 });
 
 const Navbar = ({ onSearch }) => {
+  const { t } = useTranslation();
   const [user, setUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [categorias, setCategorias] = useState([]);
@@ -91,7 +93,7 @@ const Navbar = ({ onSearch }) => {
         }}
       >
         <ListAlt />
-        Productos
+        {t('products')}
       </MenuItem>
       <MenuItem
         component={Link}
@@ -101,7 +103,7 @@ const Navbar = ({ onSearch }) => {
         }}
       >
         <ShoppingCart />
-        Carrito
+        {t('cart')}
       </MenuItem>
       {user ? (
         <>
@@ -112,7 +114,7 @@ const Navbar = ({ onSearch }) => {
             }}
           >
             <ExitToApp />
-            Cerrar sesión
+            {t('logOut')}
           </MenuItem>
           </>
       ) : (
@@ -125,7 +127,7 @@ const Navbar = ({ onSearch }) => {
             }}
           >
             <PersonAdd />
-            Registrarse
+            {t('signUp')}
           </MenuItem>
           <MenuItem
             component={Link}
@@ -135,7 +137,7 @@ const Navbar = ({ onSearch }) => {
             }}
           >
             <Login />
-            Iniciar sesión
+            {t('signIn')}
           </MenuItem>
         </>
       )}
@@ -146,13 +148,13 @@ const Navbar = ({ onSearch }) => {
     <StyledAppBar position="static">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 0 }}>
-          <StyledLink to="/">Mi Tienda</StyledLink>
+          <StyledLink to="/">{t('myStore')}</StyledLink>
         </Typography>
         <SearchBar onChange={onSearch} sx={{ flexGrow: 1 }} />
         <StyledLink onClick={handleClick} color="inherit" sx={{ ml: 2 }}>
           <Box display="flex" flexDirection="column" alignItems="center">
             <Category />
-            <Typography sx={{ mt: 0.5 }}>Categorías</Typography>
+            <Typography sx={{ mt: 0.5 }}>{t('categories')}</Typography>
           </Box>
         </StyledLink>
         <Menu

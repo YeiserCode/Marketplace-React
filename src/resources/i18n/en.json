@@ -12,6 +12,12 @@
     "incorrectPassword": "The password is incorrect.",
     "signInError": "Error signing in. Please try again.",
     "allFieldsRequired": "Please complete all fields.",
-    "successfulSignIn": "Successful sign in."
+    "successfulSignIn": "Successful sign in.",
+    "myStore": "My Store",
+    "categories": "Categories",
+    "products": "Products",
+    "cart": "Cart",
+    "signUp": "Sign Up",
+    "logOut": "Log Out"
   }
   
