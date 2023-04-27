@@ -11,8 +11,10 @@ import {
 } from '@mui/material';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../config/firebaseConfig';
+import { useTranslation } from 'react-i18next';
 
 const Register = () => {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +27,7 @@ const Register = () => {
     setMessage('');
 
     if (!name || !email || !password) {
-      setMessage('Por favor, completa todos los campos.');
+      setMessage(t('complete_fields'));
       setLoading(false);
       return;
     }
@@ -35,27 +37,25 @@ const Register = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Actualizar el perfil del usuario con el nombre y el avatar
       await updateProfile(user, {
         displayName: name,
       });
 
-      // Almacenar el nombre del usuario en Firestore
       await setDoc(doc(collection(db, 'users'), user.uid), {
         name: name,
       });
 
-      setMessage('Registro exitoso');
+      setMessage(t('successful_registration'));
       setName('');
       setEmail('');
       setPassword('');
     } catch (error) {
       if (error.code === 'auth/invalid-email') {
-        setMessage('Correo electrónico inválido.');
+        setMessage(t('invalid_email'));
       } else if (error.code === 'auth/weak-password') {
-        setMessage('La contraseña debe tener al menos 6 caracteres.');
+        setMessage(t('weak_password'));
       } else {
-        setMessage('Error al registrarse. Por favor, inténtalo de nuevo.');
+        setMessage(t('registration_error'));
       }
       console.error('Error al registrarse:', error);
     } finally {
@@ -66,13 +66,13 @@ const Register = () => {
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        Registrarse
+        {t('register')}
       </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} sm={8} md={6}>
             <TextField
-              label="Nombre"
+              label={t('name')}
               variant="outlined"
               fullWidth
               value={name}
@@ -81,7 +81,7 @@ const Register = () => {
           </Grid>
           <Grid item xs={12} sm={8} md={6}>
             <TextField
-              label="Correo electrónico"
+              label={t('email')}
               variant="outlined"
               fullWidth
               type="email"
@@ -91,7 +91,7 @@ const Register = () => {
           </Grid>
           <Grid item xs={12} sm={8} md={6}>
             <TextField
-              label="Contraseña"
+              label={t('password')}
               variant="outlined"
               fullWidth
               type="password"
@@ -107,7 +107,7 @@ const Register = () => {
                 color="primary"
                 disabled={loading}
               >
-                {loading ? <CircularProgress size={24} /> : 'Registrarse'}
+                {loading ? <CircularProgress size={24} /> : t('register')}
               </Button>
             </Box>
           </Grid>

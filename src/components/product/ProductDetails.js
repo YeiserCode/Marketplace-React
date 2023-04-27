@@ -4,6 +4,7 @@ import { db } from '../../config/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { Container, Typography, Box, Paper, Grid, Modal } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   mainImage: {
@@ -60,6 +61,7 @@ const useStyles = makeStyles({
 });
 
 const ProductDetails = () => {
+  const { t } = useTranslation();
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -135,7 +137,7 @@ const ProductDetails = () => {
           </Paper>
         </Box>
       ) : (
-        <Typography variant="h5">Cargando detalles del producto...</Typography>
+        <Typography variant="h5">{t('loadingProductDetails')}</Typography>
       )}
 
       <Modal

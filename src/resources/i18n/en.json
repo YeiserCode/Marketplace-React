@@ -23,6 +23,14 @@
     "addToCart": "Add to cart",
     "addedToCart1": "Added to cart",
     "searchProducts": "Search products",
-    "allRightsReserved": "All rights reserved"
+    "allRightsReserved": "All rights reserved",
+    "loadingProductDetails": "Loading product details...",
+    "register": "Register",
+    "complete_fields": "Please, complete all fields.",
+    "successful_registration": "Registration successful.",
+    "invalid_email": "Invalid email address.",
+    "weak_password": "The password must be at least 6 characters long.",
+    "registration_error": "Error registering. Please, try again.",
+    "name": "Name"
   }
   

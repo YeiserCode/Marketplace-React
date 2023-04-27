@@ -23,6 +23,14 @@
     "addToCart": "Agregar al carrito",
     "addedToCart1": "Agregado al carrito",
     "searchProducts": "Buscar productos",
-    "allRightsReserved": "Todos los derechos reservados"
+    "allRightsReserved": "Todos los derechos reservados",
+    "loadingProductDetails": "Cargando detalles del producto...",
+    "register": "Registrarse",
+    "complete_fields": "Por favor, completa todos los campos.",
+    "successful_registration": "Registro exitoso.",
+    "invalid_email": "Correo electrónico inválido.",
+    "weak_password": "La contraseña debe tener al menos 6 caracteres.",
+    "registration_error": "Error al registrarse. Por favor, inténtalo de nuevo.",
+    "name": "Nombre"
   }
   
