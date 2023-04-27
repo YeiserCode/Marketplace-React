@@ -18,6 +18,11 @@
     "products": "Products",
     "cart": "Cart",
     "signUp": "Sign Up",
-    "logOut": "Log Out"
+    "logOut": "Log Out",
+    "offer": "OFFER",
+    "addToCart": "Add to cart",
+    "addedToCart1": "Added to cart",
+    "searchProducts": "Search products",
+    "allRightsReserved": "All rights reserved"
   }
   

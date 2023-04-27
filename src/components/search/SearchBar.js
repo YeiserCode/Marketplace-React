@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TextField, Box, InputAdornment } from '@mui/material';
 import { Search } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 const SearchBar = ({ onChange }) => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const typingTimeoutRef = useRef(null);
 
@@ -28,7 +30,7 @@ const SearchBar = ({ onChange }) => {
     <Box mt={3} mb={3}>
       <TextField
         fullWidth
-        label="Buscar productos"
+        label={t('searchProducts')}
         variant="outlined"
         onChange={handleSearch}
         InputProps={{

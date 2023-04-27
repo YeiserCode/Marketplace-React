@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Grid, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useTranslation } from 'react-i18next';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: '4px',
@@ -55,6 +56,7 @@ const OfferBadge = styled('div')(({ theme }) => ({
 }));
 
 const Producto = ({ producto, agregarAlCarrito, handleClick, carrito }) => {
+  const { t } = useTranslation();
   const handleAgregarAlCarrito = (event) => {
     console.log('Producto:', producto);
     event.stopPropagation();
@@ -76,7 +78,7 @@ const Producto = ({ producto, agregarAlCarrito, handleClick, carrito }) => {
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <StyledCard onClick={handleCardClick}>
-        {producto.oferta && <OfferBadge>OFERTA</OfferBadge>}
+        {producto.oferta && <OfferBadge>{t('offer')}</OfferBadge>}
         <StyledCardMedia
           component="img"
           alt={producto.nombre}
@@ -109,7 +111,7 @@ const Producto = ({ producto, agregarAlCarrito, handleClick, carrito }) => {
               },
             }}
           >
-            {estaEnCarrito ? 'Agregado al carrito' : 'Agregar al carrito'}
+            {estaEnCarrito ? t('addedToCart1') : t('addToCart')}
           </Button>
         </Grid>
       </StyledCard>
