@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import ProductImages from './ProductDetails/ProductImages';
 import ProductInfo from './ProductDetails/ProductInfo';
 import ImageModal from './ProductDetails/ImageModal';
+import Questions from './ProductDetails/Questions/Questions';
+import Reviews from './ProductDetails/Reviews/Reviews';
 
 const useStyles = makeStyles({
   mainImage: {
@@ -87,6 +89,8 @@ const ProductDetails = () => {
               </Grid>
             </Grid>
           </Paper>
+          <Questions productId={productId} />
+          <Reviews productId={productId} />
         </Box>
       ) : (
         <Typography variant="h5">{t('loadingProductDetails')}</Typography>

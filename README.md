@@ -7,6 +7,8 @@ Este proyecto es una aplicación web de comercio electrónico personalizada, con
 - Visualización de productos
 - Ver Datalles del producto
 - Ver Imagen del producto
+- Reseñas con calificaciones en los productos
+- Preguntas en los Productos 
 - Paginación para los productos
 - Agregar productos al carrito de compras
 - Producto agregado al carrito

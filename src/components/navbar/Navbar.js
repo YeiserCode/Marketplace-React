@@ -21,6 +21,8 @@ import SearchBar from '../search/SearchBar';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebaseConfig';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../../store/userSlice';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#3f51b5',
@@ -38,6 +40,7 @@ const Navbar = ({ onSearch }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [categorias, setCategorias] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -66,6 +69,8 @@ const Navbar = ({ onSearch }) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      dispatch(clearUser()); // Limpia el estado del usuario en Redux.
+      console.log('Desconectado y estado del usuario borrado'); // Agrega esta línea para verificar si se está llamando correctamente.
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
