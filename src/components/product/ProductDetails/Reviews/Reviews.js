@@ -4,6 +4,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../../../config/firebaseConfig';
 import ReviewItem from './ReviewItem';
 import ReviewForm from './ReviewForm';
+import ReviewStats from './ReviewStats';
 import { useTranslation } from 'react-i18next';
 
 const Reviews = ({ productId }) => {
@@ -32,6 +33,7 @@ const Reviews = ({ productId }) => {
       <Typography variant="h6" mb={2}>
         {t('Reviews')}
       </Typography>
+      <ReviewStats reviews={reviews} />
       {reviews.length > 0 ? (
         reviews.map((review) => (
           <ReviewItem key={review.id} review={review} />
