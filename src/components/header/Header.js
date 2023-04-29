@@ -199,7 +199,7 @@ const Header = ({ onSearch }) => {
           onClick={() => setMobileMenuOpen(false)}
           onKeyDown={() => setMobileMenuOpen(false)}
         >
-          {/* Aquí van los elementos del menú de hamburguesa, como las categorías, favoritos, carrito, etc. */}
+          {/* menu. */}
            
           <ListItem button component={Link} to="/favoritos">
             <ListItemIcon>
