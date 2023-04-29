@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../../config/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
-import { Container, Box, Paper, Grid, Typography } from '@mui/material';
+import { Container, Box, Paper, Grid, Typography, Tabs, Tab } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTranslation } from 'react-i18next';
 import ProductImages from './ProductDetails/ProductImages';
@@ -39,6 +39,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [open, setOpen] = useState(false);
+  const [currentTab, setCurrentTab] = useState(0);
   const classes = useStyles();
 
   useEffect(() => {
@@ -62,6 +63,10 @@ const ProductDetails = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setCurrentTab(newValue);
   };
 
   return (
@@ -89,8 +94,20 @@ const ProductDetails = () => {
               </Grid>
             </Grid>
           </Paper>
-          <Questions productId={productId} />
-          <Reviews productId={productId} />
+          <Box mt={3}>
+            <Tabs
+              value={currentTab}
+              onChange={handleTabChange}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+            >
+              <Tab label="Preguntas" />
+              <Tab label="Reseñas" />
+            </Tabs>
+          </Box>
+          {currentTab === 0 && <Questions productId={productId} />}
+          {currentTab === 1 && <Reviews productId={productId} />}
         </Box>
       ) : (
         <Typography variant="h5">{t('loadingProductDetails')}</Typography>
