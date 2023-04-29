@@ -8,6 +8,8 @@ Este proyecto es una aplicación web de comercio electrónico personalizada, con
 - Ver Datalles del producto
 - Ver Imagen del producto
 - Reseñas con calificaciones en los productos
+. Reseñas destacadas
+- Valoración media y Distribución de calificaciones
 - Preguntas en los Productos 
 - Paginación para los productos
 - Agregar productos al carrito de compras
