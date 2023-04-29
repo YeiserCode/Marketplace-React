@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
 import { setUser } from './store/userSlice';
-
+import { Box } from '@mui/material';
 import theme from './theme/theme';
 import useProducts from './hooks/useProducts';
 import useCategories from './hooks/useCategories';
@@ -34,8 +34,9 @@ const AppContent = () => {
 
   return (
     <>
-      <Header />
-      <Navbar onSearch={handleSearchChange} categorias={categorias} />
+      <Header onSearch={handleSearchChange} categorias={categorias} />
+      <Box marginTop="90px">
+      <Navbar />
       <main className="main-content">
         <AppRoutes
           productos={productos}
@@ -47,6 +48,7 @@ const AppContent = () => {
           categorias={categorias}
         />
       </main>
+      </Box>
       <Footer />
     </>
   );

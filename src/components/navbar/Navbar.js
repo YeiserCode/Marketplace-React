@@ -1,28 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { auth } from '../../config/firebaseConfig';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
 import {
   AppBar,
   Toolbar,
   Typography,
-  IconButton,
-  Box,
   MenuItem,
-  Menu,
-  Drawer,
-  List,
-  useMediaQuery,
-  Divider,
 } from '@mui/material';
-import { ShoppingCart, ListAlt, ExitToApp, PersonAdd, Login, Category, Menu as MenuIcon } from '@mui/icons-material';
-import { styled, useTheme } from '@mui/system';
-import SearchBar from '../search/SearchBar';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../config/firebaseConfig';
+import { ListAlt } from '@mui/icons-material';
+import { styled } from '@mui/system';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { clearUser } from '../../store/userSlice';
 
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#3f51b5',
@@ -34,118 +20,18 @@ const StyledLink = styled(Link)({
   marginRight: 10,
 });
 
-const Navbar = ({ onSearch }) => {
+const Navbar = () => {
   const { t } = useTranslation();
-  const [user, setUser] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [categorias, setCategorias] = useState([]);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const dispatch = useDispatch();
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const obtenerCategorias = async () => {
-      const categoriasSnapshot = await getDocs(collection(db, 'categorias'));
-      const categoriasLista = categoriasSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      setCategorias(categoriasLista);
-    };
-
-    obtenerCategorias();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      dispatch(clearUser());
-      localStorage.removeItem('user')
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-    }
-  };
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
 
   const renderMenuItems = () => (
     <>
       <MenuItem
         component={Link}
         to="/productos"
-        onClick={() => {
-          if (isMobile) handleDrawerToggle();
-        }}
       >
         <ListAlt />
         {t('products')}
       </MenuItem>
-      <MenuItem
-        component={Link}
-        to="/carrito"
-        onClick={() => {
-          if (isMobile) handleDrawerToggle();
-        }}
-      >
-        <ShoppingCart />
-        {t('cart')}
-      </MenuItem>
-      {user ? (
-        <>
-          <MenuItem
-            onClick={() => {
-              handleLogout();
-              if (isMobile) handleDrawerToggle();
-            }}
-          >
-            <ExitToApp />
-            {t('logOut')}
-          </MenuItem>
-          </>
-      ) : (
-        <>
-          <MenuItem
-            component={Link}
-            to="/register"
-            onClick={() => {
-              if (isMobile) handleDrawerToggle();
-            }}
-          >
-            <PersonAdd />
-            {t('signUp')}
-          </MenuItem>
-          <MenuItem
-            component={Link}
-            to="/login"
-            onClick={() => {
-              if (isMobile) handleDrawerToggle();
-            }}
-          >
-            <Login />
-            {t('signIn')}
-          </MenuItem>
-        </>
-      )}
     </>
   );
 
@@ -155,46 +41,7 @@ const Navbar = ({ onSearch }) => {
         <Typography variant="h6" sx={{ flexGrow: 0 }}>
           <StyledLink to="/">{t('myStore')}</StyledLink>
         </Typography>
-        <SearchBar onChange={onSearch} sx={{ flexGrow: 1 }} />
-        <StyledLink onClick={handleClick} color="inherit" sx={{ ml: 2 }}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <Category />
-            <Typography sx={{ mt: 0.5 }}>{t('categories')}</Typography>
-          </Box>
-        </StyledLink>
-        <Menu
-          id="categorias-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          {categorias.map((categoria) => (
-            <MenuItem
-              key={categoria.id}
-              onClick={handleClose}
-              component={Link}
-              to={`/categorias/${categoria.id}`}
-            >
-              {categoria.nombre}
-            </MenuItem>
-          ))}
-        </Menu>
-        {isMobile ? (
-          <>
-            <IconButton color="inherit" onClick={handleDrawerToggle}>
-              <MenuIcon />
-            </IconButton>
-            <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
-              <List>
-                <Divider />
-                {renderMenuItems()}
-              </List>
-            </Drawer>
-          </>
-        ) : (
-          renderMenuItems()
-        )}
+        {renderMenuItems()}
       </Toolbar>
     </StyledAppBar>
   );
