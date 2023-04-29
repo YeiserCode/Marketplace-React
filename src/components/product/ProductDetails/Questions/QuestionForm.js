@@ -6,7 +6,7 @@ import { db } from '../../../../config/firebaseConfig';
 import { useTranslation } from 'react-i18next';
 
 const QuestionForm = ({ productId }) => {
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
   const [question, setQuestion] = useState('');
   const userState = useSelector((state) => state.user);
   const [error, setError] = useState('');
@@ -60,9 +60,11 @@ const QuestionForm = ({ productId }) => {
         </Box>
       )}
       {!isLoggedIn && !userState.loading && (
-        <Typography color="error">
-          {t('loginToAsk')}
-        </Typography>
+        <Box>
+          <Typography color="error">
+            {t('loginToAsk')}
+          </Typography>
+        </Box>
       )}
     </>
   );

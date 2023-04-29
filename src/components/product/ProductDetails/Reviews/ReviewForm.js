@@ -8,21 +8,24 @@ import { useTranslation } from 'react-i18next';
 
 const ReviewForm = () => {
   const { t } = useTranslation();
-  const user = useSelector((state) => state.user);
+  const userState = useSelector((state) => state.user);
   const { productId } = useParams();
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
+  const [setError] = useState('');
+
+  const isLoggedIn = !userState.loading && userState.uid && userState.name;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) {
-      alert('Debes iniciar sesión para dejar una reseña');
+    if (!isLoggedIn) {
+      setError(t('loginToReview'));
       return;
     }
 
     const newReview = {
-      userId: user.uid,
+      userId: userState.uid,
       productId,
       rating,
       calificacion: rating,
@@ -34,9 +37,9 @@ const ReviewForm = () => {
       await addDoc(collection(db, 'reviews'), newReview);
       setRating(0);
       setReviewText('');
-      alert(t('loginToReview'));
+      setError('');
     } catch (error) {
-      alert(t('reviewErrorAlert'));
+      setError(t('reviewErrorAlert'));
     }
   };
 
@@ -45,32 +48,39 @@ const ReviewForm = () => {
       <Typography variant="h6" gutterBottom>
         {t('leaveReview')}
       </Typography>
-      <form onSubmit={handleSubmit}>
-        <Box>
-          <Rating
-            name="rating"
-            value={rating}
-            onChange={(e, newValue) => setRating(newValue)}
-            precision={0.5}
-          />
-        </Box>
-        <Box mt={1}>
-          <TextField
-            fullWidth
-            multiline
-            rows={4}
-            variant="outlined"
-            label={t('review')}
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-          />
-        </Box>
-        <Box mt={1} textAlign="right">
-          <Button variant="contained" color="primary" type="submit">
-            {t('submitReview')}
-          </Button>
-        </Box>
-      </form>
+      {isLoggedIn && (
+        <form onSubmit={handleSubmit}>
+          <Box>
+            <Rating
+              name="rating"
+              value={rating}
+              onChange={(e, newValue) => setRating(newValue)}
+              precision={0.5}
+            />
+          </Box>
+          <Box mt={1}>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              variant="outlined"
+              label={t('review')}
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+            />
+          </Box>
+          <Box mt={1} textAlign="right">
+            <Button variant="contained" color="primary" type="submit">
+              {t('submitReview')}
+            </Button>
+          </Box>
+        </form>
+      )}
+      {!isLoggedIn && !userState.loading && (
+        <Typography color="error">
+          {t('loginToReview')}
+        </Typography>
+      )}
     </Box>
   );
 };

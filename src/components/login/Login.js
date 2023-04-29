@@ -40,7 +40,6 @@ const Login = () => {
   
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log(db);
       const { uid } = userCredential.user;
   
       const userDocRef = doc(db, 'users', uid);
@@ -48,6 +47,7 @@ const Login = () => {
       const userData = userDoc.data();
       const role = userData.role;
       dispatch(setUser({ uid, ...userData, userType: role }));
+      localStorage.setItem('user', JSON.stringify({ uid, ...userData, userType: role }));
       setMessage(t('successfulSignIn'));
       
       localStorage.setItem('user', JSON.stringify({ uid, ...userData, userType: role }));

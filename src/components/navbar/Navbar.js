@@ -69,8 +69,8 @@ const Navbar = ({ onSearch }) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      dispatch(clearUser()); // Limpia el estado del usuario en Redux.
-      console.log('Desconectado y estado del usuario borrado'); // Agrega esta línea para verificar si se está llamando correctamente.
+      dispatch(clearUser());
+      localStorage.removeItem('user')
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }

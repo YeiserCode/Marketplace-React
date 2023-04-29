@@ -6,12 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import "./i18n";
 import { Provider } from 'react-redux';
 import store from './store/store';
+import AuthProvider from './store/AuthProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </Provider>
   </React.StrictMode>
 );
