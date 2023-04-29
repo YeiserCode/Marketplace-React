@@ -4,8 +4,10 @@ import { useParams } from 'react-router-dom';
 import { db } from '../../../../config/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import { Box, Button, TextField, Rating, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const ReviewForm = () => {
+  const { t } = useTranslation();
   const user = useSelector((state) => state.user);
   const { productId } = useParams();
   const [rating, setRating] = useState(0);
@@ -23,26 +25,25 @@ const ReviewForm = () => {
       userId: user.uid,
       productId,
       rating,
-      calificacion: rating, // Cambiar 'rating' a 'calificacion'
-      comentario: reviewText, // Cambiar 'text' a 'comentario'
-      fecha: new Date().toISOString(), // Almacena la fecha actual en formato ISO
+      calificacion: rating,
+      comentario: reviewText,
+      fecha: new Date().toISOString(),
     };
 
     try {
       await addDoc(collection(db, 'reviews'), newReview);
       setRating(0);
       setReviewText('');
-      alert('Reseña enviada con éxito');
+      alert(t('loginToReview'));
     } catch (error) {
-      console.error('Error al enviar la reseña:', error);
-      alert('Ocurrió un error al enviar la reseña. Por favor, inténtalo de nuevo.');
+      alert(t('reviewErrorAlert'));
     }
   };
 
   return (
     <Box mt={3}>
       <Typography variant="h6" gutterBottom>
-        Dejar una reseña
+        {t('leaveReview')}
       </Typography>
       <form onSubmit={handleSubmit}>
         <Box>
@@ -59,14 +60,14 @@ const ReviewForm = () => {
             multiline
             rows={4}
             variant="outlined"
-            label="Reseña"
+            label={t('review')}
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
           />
         </Box>
         <Box mt={1} textAlign="right">
           <Button variant="contained" color="primary" type="submit">
-            Enviar reseña
+            {t('submitReview')}
           </Button>
         </Box>
       </form>

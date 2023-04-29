@@ -31,6 +31,21 @@
     "invalid_email": "Correo electrónico inválido.",
     "weak_password": "La contraseña debe tener al menos 6 caracteres.",
     "registration_error": "Error al registrarse. Por favor, inténtalo de nuevo.",
-    "name": "Nombre"
+    "name": "Nombre",
+    "askQuestion": "Haz una pregunta:",
+    "writeQuestion": "Escribe tu pregunta",
+    "submitQuestion": "Enviar pregunta",
+    "loginToAsk": "Debes iniciar sesión para realizar una pregunta.",
+    "submitError": "Error al enviar la pregunta. Por favor, inténtalo de nuevo.",
+    "loginToReview": "Debes iniciar sesión para dejar una reseña.",
+    "reviewSuccess": "Reseña enviada con éxito.",
+    "reviewErrorAlert": "Ocurrió un error al enviar la reseña. Por favor, inténtalo de nuevo.",
+    "leaveReview": "Dejar una reseña",
+    "review": "Reseña",
+    "submitReview": "Enviar reseña",
+    "Questions": "Preguntas",
+    "Reviews": "Reseñas",
+    "noReviews": "Aún no hay reseñas para este producto."
+    
   }
   

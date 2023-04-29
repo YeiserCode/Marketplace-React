@@ -6,8 +6,10 @@ import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import QuestionForm from './QuestionForm';
 import QuestionItem from './QuestionItem';
+import { useTranslation } from 'react-i18next';
 
 const Questions = () => {
+    const { t } = useTranslation();
     const { productId } = useParams();
     const [questions, setQuestions] = useState([]);
     const user = useSelector((state) => state.user);
@@ -35,7 +37,7 @@ const Questions = () => {
   return (
     <Box mt={3}>
       <Typography variant="h5" gutterBottom>
-        Preguntas
+        {t('Questions')}
       </Typography>
       <QuestionForm productId={productId} user={user} />
       {questions.map((question) => (

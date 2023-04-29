@@ -4,9 +4,11 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../../../config/firebaseConfig';
 import ReviewItem from './ReviewItem';
 import ReviewForm from './ReviewForm';
+import { useTranslation } from 'react-i18next';
 
 const Reviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -28,7 +30,7 @@ const Reviews = ({ productId }) => {
   return (
     <Box mt={3}>
       <Typography variant="h6" mb={2}>
-        Reseñas
+        {t('Reviews')}
       </Typography>
       {reviews.length > 0 ? (
         reviews.map((review) => (
@@ -36,7 +38,7 @@ const Reviews = ({ productId }) => {
         ))
       ) : (
         <Typography variant="body1">
-          Aún no hay reseñas para este producto.
+          {t('noReviews')}
         </Typography>
       )}
       <ReviewForm productId={productId} />

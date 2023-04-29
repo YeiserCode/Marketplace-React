@@ -31,6 +31,21 @@
     "invalid_email": "Invalid email address.",
     "weak_password": "The password must be at least 6 characters long.",
     "registration_error": "Error registering. Please, try again.",
-    "name": "Name"
+    "name": "Name",
+    "askQuestion": "Ask a question:",
+    "writeQuestion": "Write your question",
+    "submitQuestion": "Submit question",
+    "loginToAsk": "You must log in to ask a question.",
+    "submitError": "Error submitting the question. Please try again.",
+    "loginToReview": "You must log in to leave a review.",
+    "reviewSuccess": "Review submitted successfully.",
+    "reviewErrorAlert": "An error occurred while submitting the review. Please try again.",
+    "leaveReview": "Leave a review",
+    "review": "Review",
+    "submitReview": "Submit review",
+    "Questions": "Questions",
+    "Reviews": "Reviews",
+    "noReviews": "There are no reviews for this product yet."
+
   }
   
