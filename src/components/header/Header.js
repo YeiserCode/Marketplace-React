@@ -96,18 +96,18 @@ const Header = ({ onSearch }) => {
     <>
       <StyledAppBar position="fixed">
         <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 0, display: { xs: 'none', sm: 'none', md: 'flex' } }}>
+          <Typography variant="h6" sx={{ flexGrow: 0, display: { xs: 'none', sm: 'none', md: 'flex' } }}>
             <StyledLink to="/">{t('myStore')}</StyledLink>
           </Typography>
-            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-              <StyledLink onClick={handleMenuOpen('categories')} color="inherit" sx={{ ml: 2 }}>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Category />
-                  <Typography sx={{ mt: 0.5 }}>{t('categories')}</Typography>
-                </Box>
-              </StyledLink>
-              <SearchBar onChange={onSearch} sx={{ marginLeft: '10px' }} />
-            </Box>
+          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+            <StyledLink onClick={handleMenuOpen('categories')} color="inherit" sx={{ ml: 2 }}>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <Category />
+                <Typography sx={{ mt: 0.5 }}>{t('categories')}</Typography>
+              </Box>
+            </StyledLink>
+            <SearchBar onChange={onSearch} sx={{ marginLeft: '10px' }} />
+          </Box>
           <Hidden mdUp>
             <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleMobileMenu}>
               <MenuIcon />
@@ -125,25 +125,25 @@ const Header = ({ onSearch }) => {
             <MenuItem onClick={() => handleChangeLanguage('en')}>English</MenuItem>
             <MenuItem onClick={() => handleChangeLanguage('es')}>Español</MenuItem>
           </Menu>
+          <Menu
+            id="categorias-menu"
+            anchorEl={anchorElCategories}
+            keepMounted
+            open={Boolean(anchorElCategories)}
+            onClose={handleMenuClose('categories')}
+          >
+            {categorias.map((categoria) => (
+              <MenuItem
+                key={categoria.id}
+                onClick={handleMenuClose('categories')}
+                component={Link}
+                to={`/categorias/${categoria.id}`}
+              >
+                {categoria.nombre}
+              </MenuItem>
+            ))}
+          </Menu>
           <Hidden mdDown>
-            <Menu
-              id="categorias-menu"
-              anchorEl={anchorElCategories}
-              keepMounted
-              open={Boolean(anchorElCategories)}
-              onClose={handleMenuClose('categories')}
-            >
-              {categorias.map((categoria) => (
-                <MenuItem
-                  key={categoria.id}
-                  onClick={handleMenuClose('categories')}
-                  component={Link}
-                  to={`/categorias/${categoria.id}`}
-                >
-                  {categoria.nombre}
-                </MenuItem>
-              ))}
-            </Menu>
             <IconButton color="inherit">
               <StyledLink to="/favoritos">
                 <Favorite />
@@ -161,29 +161,28 @@ const Header = ({ onSearch }) => {
             </IconButton>
           ) : (
             <>
-<Hidden mdDown>
-  {user ? (
-    <IconButton color="inherit" onClick={handleLogout}>
-      <ExitToApp />
-    </IconButton>
-  ) : (
-    <>
-      <IconButton color="inherit" component={Link} to="/register">
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <PersonAdd />
-          <Typography sx={{ fontSize: '0.75rem' }}>{t('signUp')}</Typography>
-        </Box>
-      </IconButton>
-      <IconButton color="inherit" component={Link} to="/login">
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <Login />
-          <Typography sx={{ fontSize: '0.75rem' }}>{t('signIn')}</Typography>
-        </Box>
-      </IconButton>
-    </>
-  )}
-</Hidden>
-
+              <Hidden mdDown>
+                {user ? (
+                  <IconButton color="inherit" onClick={handleLogout}>
+                    <ExitToApp />
+                  </IconButton>
+                ) : (
+                  <>
+                    <IconButton color="inherit" component={Link} to="/register">
+                      <Box display="flex" flexDirection="column" alignItems="center">
+                        <PersonAdd />
+                        <Typography sx={{ fontSize: '0.75rem' }}>{t('signUp')}</Typography>
+                      </Box>
+                    </IconButton>
+                    <IconButton color="inherit" component={Link} to="/login">
+                      <Box display="flex" flexDirection="column" alignItems="center">
+                        <Login />
+                        <Typography sx={{ fontSize: '0.75rem' }}>{t('signIn')}</Typography>
+                      </Box>
+                    </IconButton>
+                  </>
+                )}
+              </Hidden>
             </>
           )}
         </Toolbar>
@@ -199,8 +198,14 @@ const Header = ({ onSearch }) => {
           onClick={() => setMobileMenuOpen(false)}
           onKeyDown={() => setMobileMenuOpen(false)}
         >
+          <ListItem button onClick={handleMenuOpen('categories')}>
+            <ListItemIcon>
+              <Category />
+            </ListItemIcon>
+            <ListItemText primary={t('categories')} />
+          </ListItem>
           {/* menu. */}
-           
+
           <ListItem button component={Link} to="/favoritos">
             <ListItemIcon>
               <Favorite />
@@ -216,26 +221,26 @@ const Header = ({ onSearch }) => {
           </ListItem>
 
           {user ? (
-  <IconButton color="inherit" onClick={handleLogout}>
-    <ExitToApp />
-  </IconButton>
-) : (
-  <>
-    <ListItem button component={Link} to="/login">
-      <ListItemIcon>
-        <Login />
-      </ListItemIcon>
-      <ListItemText primary={t('signIn')} />
-    </ListItem>
+            <IconButton color="inherit" onClick={handleLogout}>
+              <ExitToApp />
+            </IconButton>
+          ) : (
+            <>
+              <ListItem button component={Link} to="/login">
+                <ListItemIcon>
+                  <Login />
+                </ListItemIcon>
+                <ListItemText primary={t('signIn')} />
+              </ListItem>
 
-    <ListItem button component={Link} to="/register">
-      <ListItemIcon>
-        <PersonAdd />
-      </ListItemIcon>
-      <ListItemText primary={t('signUp')} />
-    </ListItem>
-  </>
-)}         
+              <ListItem button component={Link} to="/register">
+                <ListItemIcon>
+                  <PersonAdd />
+                </ListItemIcon>
+                <ListItemText primary={t('signUp')} />
+              </ListItem>
+            </>
+          )}
 
         </Box>
       </Drawer>
