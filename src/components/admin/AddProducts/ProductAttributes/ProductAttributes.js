@@ -6,7 +6,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Box,
 } from '@mui/material';
 import ColorPicker from './ColorPicker';
 import GenderPicker from './GenderPicker';
