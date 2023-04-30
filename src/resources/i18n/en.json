@@ -45,7 +45,8 @@
     "submitReview": "Submit review",
     "Questions": "Questions",
     "Reviews": "Reviews",
-    "noReviews": "There are no reviews for this product yet."
+    "noReviews": "There are no reviews for this product yet.",
+    "favorites": "favorites"
 
   }
   

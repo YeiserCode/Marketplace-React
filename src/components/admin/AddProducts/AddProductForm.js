@@ -17,6 +17,7 @@ import {
   Checkbox,
 } from '@mui/material';
 import ImageUploader from './ImageUploader';
+import ProductAttributes from './ProductAttributes/ProductAttributes';
 
 const AddProductForm = ({ onSubmit, setMessage, message }) => {
   const [nombre, setNombre] = useState('');
@@ -28,6 +29,7 @@ const AddProductForm = ({ onSubmit, setMessage, message }) => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [loading, setLoading] = useState(false);
   const [enOferta, setEnOferta] = useState(false);
+  const [attributes, setAttributes] = useState({});
 
   useEffect(() => {
     const obtenerCategorias = async () => {
@@ -82,6 +84,7 @@ const AddProductForm = ({ onSubmit, setMessage, message }) => {
       imagenes: urlsImagenes,
       categoria: categoriaSeleccionada,
       oferta: enOferta,
+      attributes,
     });
 
     setNombre('');
@@ -157,6 +160,10 @@ const AddProductForm = ({ onSubmit, setMessage, message }) => {
             label="En oferta"
           />
         </Grid>
+        <Grid item xs={12}>
+  <ProductAttributes attributes={attributes} setAttributes={setAttributes} />
+</Grid>
+
         <Grid item xs={12}>
           <ImageUploader
             setUrlsImagenes={setUrlsImagenes}
