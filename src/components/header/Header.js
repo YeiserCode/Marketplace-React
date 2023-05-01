@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../../config/firebaseConfig';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { AppBar, Toolbar, Typography, IconButton, Box, MenuItem, Menu, Drawer, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { AppBar, Toolbar, Typography, Badge, IconButton, Box, MenuItem, Menu, Drawer, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { ShoppingCart, Favorite, ExitToApp, PersonAdd, Login, Category, Menu as MenuIcon } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import SearchBar from '../search/SearchBar';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebaseConfig';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearUser } from '../../store/userSlice';
 import LanguageIcon from '@mui/icons-material/Language';
 import { Hidden } from '@mui/material';
@@ -35,6 +35,7 @@ const Header = ({ onSearch }) => {
   const [categorias, setCategorias] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.wishlist);
 
   const handleChangeLanguage = (language) => {
     i18n.changeLanguage(language);
@@ -145,8 +146,10 @@ const Header = ({ onSearch }) => {
           </Menu>
           <Hidden mdDown>
             <IconButton color="inherit">
-              <StyledLink to="/favoritos">
+              <StyledLink to="/wishlist">
+              <Badge badgeContent={wishlist.length} color="error">
                 <Favorite />
+              </Badge>
               </StyledLink>
             </IconButton>
             <IconButton color="inherit">
@@ -206,9 +209,11 @@ const Header = ({ onSearch }) => {
           </ListItem>
           {/* menu. */}
 
-          <ListItem button component={Link} to="/favoritos">
+          <ListItem button component={Link} to="/wishlist">
             <ListItemIcon>
-              <Favorite />
+              <Badge badgeContent={wishlist.length} color="error">
+                <Favorite />
+              </Badge>
             </ListItemIcon>
             <ListItemText primary={t('favorites')} />
           </ListItem>

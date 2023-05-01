@@ -1,7 +1,9 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, Grid, Button } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Grid, Button, IconButton  } from '@mui/material';
 import { styled } from '@mui/system';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useTranslation } from 'react-i18next';
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -55,12 +57,17 @@ const OfferBadge = styled('div')(({ theme }) => ({
   },
 }));
 
-const Producto = ({ producto, agregarAlCarrito, handleClick, carrito }) => {
+const Product = ({ producto, agregarAlCarrito, handleClick, carrito, addToWishlist, wishlist }) => {
   const { t } = useTranslation();
   const handleAgregarAlCarrito = (event) => {
     console.log('Producto:', producto);
     event.stopPropagation();
     agregarAlCarrito(producto, 1);
+  };
+
+  const handleAddToWishlist = (event) => {
+    event.stopPropagation();
+    addToWishlist(producto);
   };
 
   const handleCardClick = (event) => {
@@ -70,7 +77,12 @@ const Producto = ({ producto, agregarAlCarrito, handleClick, carrito }) => {
   };
 
   const estaEnCarrito = carrito.some((item) => item.id === producto.id);
+  const [isInWishlist, setIsInWishlist] = React.useState(false);
 
+  React.useEffect(() => {
+    setIsInWishlist(wishlist && wishlist.some((item) => item.id === producto.id));
+  }, [wishlist, producto.id]);
+  
   const truncateDescription = (description, maxLength = 100) => {
     return description.length > maxLength ? description.slice(0, maxLength) + '...' : description;
   };
@@ -113,10 +125,20 @@ const Producto = ({ producto, agregarAlCarrito, handleClick, carrito }) => {
           >
             {estaEnCarrito ? t('addedToCart1') : t('addToCart')}
           </Button>
+          <IconButton
+            size="small"
+            onClick={handleAddToWishlist}
+            sx={{
+              marginLeft: '1rem',
+              color: isInWishlist ? 'error.main' : 'action.active',
+            }}
+          >
+            {isInWishlist ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
         </Grid>
       </StyledCard>
     </Grid>
   );
 };
 
-export default Producto;
+export default Product;

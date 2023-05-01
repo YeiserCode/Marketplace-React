@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './userSlice';
+import wishlistReducer from './wishlistSlice';
 
 const preloadedState = {
   user: JSON.parse(localStorage.getItem('user')) || {
@@ -14,8 +15,10 @@ const preloadedState = {
 const store = configureStore({
   reducer: {
     user: userReducer,
+    wishlist: wishlistReducer,
   },
   preloadedState,
 });
+
 
 export default store;
