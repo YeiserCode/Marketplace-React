@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './userSlice';
 import wishlistReducer from './wishlistSlice';
+import addressReducer from './addressSlice';
 
 const preloadedState = {
   user: JSON.parse(localStorage.getItem('user')) || {
@@ -16,6 +17,7 @@ const store = configureStore({
   reducer: {
     user: userReducer,
     wishlist: wishlistReducer,
+    address: addressReducer,
   },
   preloadedState,
 });

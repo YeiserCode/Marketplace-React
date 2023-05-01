@@ -11,6 +11,7 @@ import CarritoItemAgregado from '../components/cart/AddedCartProduct';
 import Categoria from '../components/category/Category';
 import withAdminAuth from './withAdminAuth';
 import Wishlist from '../components/wishlist/Wishlist';
+import AddressBook from '../components/user/AddressManagement/AddressBook';
 
 const AppRoutes = ({ productos, carrito, search, agregarAlCarrito, eliminarDelCarrito, handleSearchChange, categorias, wishlist, addToWishlist }) => {
   const AdminWithAuth = withAdminAuth(Admin);
@@ -33,6 +34,7 @@ const AppRoutes = ({ productos, carrito, search, agregarAlCarrito, eliminarDelCa
       <Route path="/login" element={<Login />} />
       <Route path="/wishlist" element={<Wishlist wishlist={wishlist} addToWishlist={addToWishlist} />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/address" element={<AddressBook />} />
       <Route path="/register" element={<Register />} />
       <Route path="/product/:productId" element={<ProductDetails productos={productos} />} />
       <Route path="/categorias/:categoriaId" element={<Categoria productos={productos} agregarAlCarrito={agregarAlCarrito} carrito={carrito} wishlist={wishlist} addToWishlist={addToWishlist} />} />
